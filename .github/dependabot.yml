@@ -1,17 +1,47 @@
+# Dependabot設定ファイルの形式。依存パッケージのバージョンではない。
+# 便利な運用ケースは同じディレクトリのdependabot.examples.yml.disabledを参照。
+# サンプルはDependabotに読み込まれないため、必要な設定だけこのファイルへ移す。
 version: 2
+
+# パッケージ管理ツールごとの更新ルール。
 updates:
+  # npmの依存パッケージ（dependencies / devDependencies）を更新対象にする。
   - package-ecosystem: "npm"
+    # リポジトリのルートにあるpackage.json・package-lock.jsonを確認する。
     directory: "/"
+
+    # 通常のバージョン更新を確認するスケジュール。
     schedule:
+      # dailyは平日（月〜金）に確認する。土日は定期実行の対象外。
       interval: "daily"
+      # 更新確認の時刻の目安。指定時刻ちょうどのPR作成完了は保証されない。
       time: "09:00"
+      # timeを日本時間として扱う。
       timezone: "Asia/Tokyo"
+
+    # 通常更新の未完了PRは同時に最大10件。セキュリティ更新の上限とは別。
     open-pull-requests-limit: 10
+
+    # 指定した依存の通常更新を、グループ単位で1件のPRにまとめる。
     groups:
+      # angularはグループ名。PRタイトルやブランチ名に使われる。
       angular:
+        # @angular/で始まるパッケージをまとめる。その他の依存は原則個別PR。
         patterns:
           - "@angular/*"
+    # npm依存の通常更新を1件のPRにまとめる場合は、上のgroups全体を以下に置き換える。
+    # groups:
+    #   all-dependencies:
+    #     patterns:
+    #       - "*"
+
+    # 通常更新で候補から除外する依存・更新種別。
     ignore:
+      # *は全パッケージに適用する指定。
       - dependency-name: "*"
         update-types:
+          # メジャー更新（例: Angular 20→21）を除外し、マイナー・パッチ更新を候補にする。
           - "version-update:semver-major"
+
+# レビュー依頼先は.github/CODEOWNERS、承認必須条件はGitHubのブランチ保護で管理する。
+# 自動マージの予約は.github/workflows/dependabot-auto-merge.ymlで管理する。
