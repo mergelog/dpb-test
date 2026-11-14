@@ -2,6 +2,8 @@
 
 確認日: 2026年11月14日。**17パターンの設定検証と15種類の公式updaterテストがすべて成功しました。** [最終実行ログ](https://github.com/mergelog/dpb-test/actions/runs/43577956660)、[ケース別の実測結果JSON](dependabot-verification-results.json)から確認できます。検証したコードはコミット `cc4514f` です。
 
+追加検証後のコミット`994fea6`でも[全16ジョブの再実行](https://github.com/mergelog/dpb-test/actions/runs/43580394195)が成功しました。以下にはGitHub実サービスでの追加確認も記録しています。
+
 対象は [.github/dependabot.examples.yml.disabled](../.github/dependabot.examples.yml.disabled) の9ケースと、設定ファイル内のコメントアウトした代替設定です。有効なDependabot設定値、ブランチ保護、セキュリティ更新の有効・無効は変更していません。
 
 ## 検証方法
@@ -59,20 +61,42 @@ npmの基本fixtureにはAngular compiler/core 20.3.34、RxJS 7.8.1、tslib 2.8.
 
 この確認はアカウント`mergelog`のAPI操作によるレビューです。ブラウザ上での手作業による承認操作を試したという意味ではありません。新規作成イベントによる起動は、再オープンイベントとは区別して扱います。
 
-## 実サービスで未確認の項目と前提
+### 設定例を有効化した実PRの確認
+
+[検証専用リポジトリ](https://github.com/mergelog/dpb-test-live-verification-20261114)に、意図的に古い依存を入れたfixtureを配置しました。設定はデフォルトの`control`ブランチで管理し、通常の確認先は承認1件必須の`main`です。元リポジトリの設定例をコピーし、ディレクトリ・対象ブランチ・検証用スケジュールを変更しています。
+
+| 項目 | 実測結果・証跡 |
+| --- | --- |
+| 全依存のグループ化 | [PR #8](https://github.com/mergelog/dpb-test-live-verification-20261114/pull/8)でRxJS・tslib・TypeScriptを1件に集約 |
+| 接頭辞・ラベル・担当者 | 同PRのタイトルが`chore(deps):`、ラベルが`dependencies`、担当者が`mergelog` |
+| 新規PRでの自動マージ予約 | `main`向けの新規Dependabot PRでワークフローが実行され、承認前は予約して待機 |
+| PR上限の変更 | 上限1では[PR #3](https://github.com/mergelog/dpb-test-live-verification-20261114/pull/3)の1件。2へ増やすと[PR #9](https://github.com/mergelog/dpb-test-live-verification-20261114/pull/9)が追加され、2件になる |
+| 停止・再開 | 上限0ではPRなし。1へ戻すと[PR #10](https://github.com/mergelog/dpb-test-live-verification-20261114/pull/10)を作成。再度0にしても既存PRは残る |
+| `lockfile-only` | [PR #5](https://github.com/mergelog/dpb-test-live-verification-20261114/pull/5)は`package-lock.json`だけを変更 |
+| `target-branch` | [PR #7](https://github.com/mergelog/dpb-test-live-verification-20261114/pull/7)は`dependency-testing`向けに作成。`main`専用の自動マージ予約は適用されない |
+| セキュリティ更新 | 通常更新の上限0でも実アラートから修正PRを作成。[PR #11](https://github.com/mergelog/dpb-test-live-verification-20261114/pull/11)で2依存をグループ化し、先行の個別PR #1・#2をDependabot自身がクローズ |
+| 再ベース停止 | 同じ競合を作ると通常設定の[PR #3](https://github.com/mergelog/dpb-test-live-verification-20261114/pull/3)はhead更新・競合解消。最初から`disabled`の[PR #6](https://github.com/mergelog/dpb-test-live-verification-20261114/pull/6)はhead不変・競合ありのまま |
+
+セキュリティ更新には、実アドバイザリに該当する`lodash 4.17.20`と`minimist 1.2.5`を検証用入力として使いました。[lodashのアドバイザリ](https://github.com/advisories/GHSA-35jh-r3h4-6jhm)、[minimistのアドバイザリ](https://github.com/advisories/GHSA-xvch-5gv4-984h)。本体アプリの依存に追加したものではありません。設定が無効だった時点では個別PRが作成され、設定修正後のグループ化で置き換わることも観測しました。
+
+再ベースの比較では、PR #8に検証用コミットを追加し、2ケースのRxJS指定を`7.8.1`から同じ固定版を表す`=7.8.1`へ変更して、既存更新PRと同じ行に競合を作りました。承認後の自動マージで取り込み、通常設定と停止設定を比較しています。初期のグループ化・ラベル・担当者の観測は、この追加コミットより前です。
+
+終了時は専用リポジトリの通常更新上限を全件0にし、security updatesと未マージPRの自動マージ予約を無効化しました。設定検証の成功と実行中ジョブがないことを確認してアーカイブしています。コード・PR・ログを証跡として参照できます。再利用にはアーカイブ解除と設定の復元が必要です。
+
+## 実サービスでの確認範囲と残る前提
 
 | 項目 | 今回の確認範囲・残る前提 |
 | --- | --- |
 | 曜日・時刻・タイムゾーン | スキーマと公式仕様を照合。実際の曜日・時刻を待つ運用試験は行わない |
-| PR上限・停止・再開 | スキーマ検証。GitHubのスケジューラによるPR作成制御はdry-run対象外 |
-| ラベル・担当者 | スキーマ検証。実PRへの付与・通知はGitHubサービス側の確認が別途必要 |
-| `rebase-strategy: disabled` | コメントを有効化した設定のスキーマ検証。既存PRの時間経過を伴う試験は行わない |
-| `target-branch` | コメントを有効化した設定のスキーマ検証。実ブランチ・保護条件・ワークフロー条件は移行先で確認する |
+| PR上限・停止・再開 | 上記の実PRで確認済み。上限0は既存PRを閉じる機能ではない |
+| ラベル・担当者 | 実PRへの付与を確認済み。メール通知の受信までは確認しない |
+| `rebase-strategy: disabled` | 最初から停止設定で作った実PRの競合時動作を確認済み。設定変更前からあるPRへの30日間の例外は、時間経過を伴うため未検証 |
+| `target-branch` | 実PRの対象ブランチを確認済み。移行先でも実ブランチ・保護条件・ワークフロー条件の設定が必要 |
 | private registry | 一時的なHTTPSサーバーと仮トークンで認証・更新を検証。利用者の実registry、Secrets登録、証明書、権限の違いは未検証 |
-| セキュリティ更新 | 仮の脆弱性情報でupdaterのグループ処理を検証。GitHubの実アラート生成・検出は未検証で、実リポジトリのsecurity updatesは有効化しない |
+| セキュリティ更新 | 仮情報でのupdaterテストに加え、専用リポジトリで実アラートとグループ修正PRを確認済み。本体リポジトリのsecurity updatesは無効のまま |
 | 承認後の自動マージ | 上記の実PRで確認済み。設定例自体は承認ルールを作らないため、移行先でもブランチ保護が必要 |
 
-GitHub側の機能を有効化・変更する場合は、テスト用リポジトリなどで実PRの動作も確認してください。スキーマが通ることと、すべての運用条件で動くことは同義ではありません。
+移行先でGitHub側の機能を有効化・変更する場合も、実PRの動作を確認してください。スキーマが通ることと、すべての運用条件で動くことは同義ではありません。
 
 ## 検証で修正・確認した点
 
