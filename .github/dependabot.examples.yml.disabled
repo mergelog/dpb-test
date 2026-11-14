@@ -2,6 +2,8 @@
 #
 # このファイル名はDependabotの設定対象ではないため、保存しても更新処理は変わらない。
 # 実際の設定ファイルは.github/dependabot.yml（またはdependabot.yaml）。
+# 動作検証の方法・結果・対象外の範囲は、ルートのdocs/dependabot-verification.mdを参照。
+# CLIのdry-runは実際のPRを作らず、GitHubのスケジューラやPR上限を再現するものではない。
 #
 # 使い方:
 # - 各「ケース」は独立した設定例。---はケースの区切りで、丸ごとコピーしない。
@@ -214,6 +216,7 @@ updates:
 # DependabotへNPM_PRIVATE_TOKENを登録する。トークンの値をファイルへ書かない。
 # Actions用SecretsがそのままDependabotへ共有される前提にしない。
 # registryのURLにはHTTPSを使う。公式proxyはHTTPリクエストへ認証情報を付けない。
+# 自動検証には一時的なHTTPS registryと仮トークンを使う。実際の接続先・資格情報は別途確認する。
 # https://docs.github.com/en/code-security/how-tos/secure-your-supply-chain/manage-your-dependency-security/configure-access-to-private-registries
 version: 2
 registries:
@@ -236,6 +239,7 @@ updates:
 # 再開時はopen-pull-requests-limitを元の件数へ戻す。
 # 既存PRは閉じず、自動マージ予約も解除しない。必要ならPR側で個別解除する。
 # セキュリティ更新の停止や、自動マージ用ワークフローの停止は別の操作。
+# PR上限と停止・再開はGitHub側の制御。CLIのupdater dry-runで動作確認できる範囲には含まれない。
 version: 2
 updates:
   - package-ecosystem: "npm"

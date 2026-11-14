@@ -176,9 +176,12 @@ def job_for(config):
             if 'update-types' in rule:
                 condition['update-types'] = rule['update-types']
             job['ignore-conditions'].append(condition)
-    # Bound the public-registry fixtures so future releases cannot change expectations.
+    # Freeze later releases within the current major, but leave newer majors visible.
+    # This way the sample's major-ignore rule, not the fixture cap, must exclude them.
     for name, target in TARGETS.items():
-        job['ignore-conditions'].append({'dependency-name': name, 'version-requirement': '>' + target})
+        next_major = str(int(target.split('.')[0]) + 1) + '.0.0'
+        job['ignore-conditions'].append({'dependency-name': name,
+                                         'version-requirement': f'>{target} <{next_major}'})
     for name, rules in update.get('groups', {}).items():
         rules = copy.deepcopy(rules)
         job['dependency-groups'].append({
@@ -403,6 +406,7 @@ def run_case(name, output, cli):
             assert all(file['name'] == 'package-lock.json' for file in pr['updated-dependency-files']), pr.keys()
     elif name == 'actions':
         assert len(prs) == 1 and names == {'actions/checkout', 'actions/upload-artifact'}, summary
+        assert all(dep['version'].lstrip('v').split('.')[0] == '4' for dep in prs[0]['dependencies']), prs
     elif name == 'security':
         assert len(prs) == 1 and names == {'rxjs', 'typescript'}, summary
     elif name == 'directories':
