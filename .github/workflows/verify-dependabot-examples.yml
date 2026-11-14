@@ -1,0 +1,57 @@
+name: Verify Dependabot examples
+
+on:
+  push:
+    branches: [docs/dependabot-guide]
+    paths:
+      - '.github/dependabot*'
+      - '.github/workflows/verify-dependabot-examples.yml'
+      - 'scripts/verify-dependabot-examples.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  schema:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: python3 -m pip install --user PyYAML==6.0.3 jsonschema==4.25.1
+      - run: python3 scripts/verify-dependabot-examples.py --validate
+
+  updater:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        case: [all, split, patch, ignored-version, production, lockfile-pinned, lockfile-range, increase-if-necessary, cooldown-excluded, actions, security, directories, registry, cooldown-withheld, cooldown-excluded-fresh]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: python3 -m pip install --user PyYAML==6.0.3 jsonschema==4.25.1
+      - name: Install official Dependabot CLI
+        run: |
+          curl --fail --location --retry 3 https://github.com/dependabot/cli/releases/download/v1.97.0/dependabot-v1.97.0-linux-amd64.tar.gz -o "$RUNNER_TEMP/dependabot.tar.gz"
+          mkdir "$RUNNER_TEMP/dependabot-cli"
+          tar -xzf "$RUNNER_TEMP/dependabot.tar.gz" -C "$RUNNER_TEMP/dependabot-cli"
+          echo "$RUNNER_TEMP/dependabot-cli" >> "$GITHUB_PATH"
+      - name: Run updater and assert proposed changes
+        env:
+          CASE: ${{ matrix.case }}
+          LOCAL_GITHUB_ACCESS_TOKEN: ${{ github.token }}
+        run: |
+          dependabot --version
+          python3 scripts/verify-dependabot-examples.py --case "$CASE"
+      - name: Preserve dry-run evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: dependabot-verification-${{ matrix.case }}
+          path: out/dependabot-verification
+          retention-days: 14

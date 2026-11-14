@@ -1,0 +1,2602 @@
+{
+  "verified_on": "2026-11-14",
+  "approval_auto_merge": {
+    "observed_at": "2026-11-14T09:15:06.438539+00:00",
+    "pr_url": "https://github.com/mergelog/dpb-test/pull/4",
+    "tested_commit": "b5a01f3bd642d263dd1e201343021a547fb6e1b8",
+    "before": {
+      "state": "open",
+      "merged": false,
+      "mergeable_state": "blocked",
+      "auto_merge_method": "squash",
+      "reviews": []
+    },
+    "protection": {
+      "required_approving_review_count": 1,
+      "enforce_admins": true,
+      "dismiss_stale_reviews": true
+    },
+    "build": {
+      "command": "npm ci --ignore-scripts --no-audit --no-fund && npm run build",
+      "success": true,
+      "initial_bundle_bytes_approx": 92340
+    },
+    "after": {
+      "observed_at": "2026-11-14T09:15:56.332464+00:00",
+      "state": "closed",
+      "merged": true,
+      "merged_at": "2026-11-14T09:15:39Z",
+      "merge_commit_sha": "1510a62a1bd075edded10570c0875fe1c8703f8d",
+      "reviews": [
+        {
+          "id": 5903369918,
+          "author": "mergelog",
+          "state": "APPROVED",
+          "commit_id": "b5a01f3bd642d263dd1e201343021a547fb6e1b8",
+          "submitted_at": "2026-11-14T09:15:24Z"
+        }
+      ]
+    },
+    "explicit_merge_api_called": false,
+    "passed": true
+  },
+  "reopened_workflow": {
+    "observed_at": "2026-11-14T09:17:24.174460+00:00",
+    "pr_url": "https://github.com/mergelog/dpb-test/pull/2",
+    "closed_state": "closed",
+    "auto_merge_while_closed": null,
+    "after": {
+      "observed_at": "2026-11-14T09:18:10.885665+00:00",
+      "state": "OPEN",
+      "reviewDecision": "REVIEW_REQUIRED",
+      "mergeStateStatus": "BLOCKED",
+      "autoMergeRequest": {
+        "enabledAt": "2026-11-14T09:17:33Z",
+        "mergeMethod": "SQUASH",
+        "enabledBy": {
+          "login": "github-actions"
+        }
+      }
+    },
+    "workflow_run": "https://github.com/mergelog/dpb-test/actions/runs/43579846705",
+    "workflow_job_id": 132402026959,
+    "workflow_success": true,
+    "passed": true
+  },
+  "live_fixtures": {
+    "repository": "https://github.com/mergelog/dpb-test-live-verification-20261114",
+    "accepted_config": {
+      "commit": "849db930b541f6264e0166fa642de7a778115a9a",
+      "checks": [
+        {
+          "id": 132403032796,
+          "name": ".github/dependabot.yml",
+          "conclusion": "success",
+          "output": {
+            "title": "Dependabot config file validation",
+            "summary": "All changes look good",
+            "text": null,
+            "annotations_count": 0,
+            "annotations_url": "https://api.github.com/repos/mergelog/dpb-test-live-verification-20261114/check-runs/132403032796/annotations"
+          },
+          "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/runs/132403032796"
+        }
+      ]
+    },
+    "cases": {
+      "group_labels_assignee_prefix": {
+        "passed": true,
+        "pr": 8
+      },
+      "opened_auto_merge_workflow": {
+        "passed": true,
+        "pr": 8
+      },
+      "open_pr_limit_one_to_two": {
+        "passed": true,
+        "initial_count": 1,
+        "resumed_count": 2,
+        "prs": [
+          3,
+          9
+        ]
+      },
+      "pause_resume_pause": {
+        "passed": true,
+        "counts": [
+          0,
+          1,
+          1
+        ],
+        "pr": 10,
+        "existing_pr_remains": true
+      },
+      "lockfile_only": {
+        "passed": true,
+        "pr": 5
+      },
+      "target_branch": {
+        "passed": true,
+        "pr": 7,
+        "base": "dependency-testing",
+        "auto_merge_enabled": false
+      },
+      "security_group": {
+        "passed": true,
+        "pr": 11,
+        "replaced_prs": [
+          1,
+          2
+        ],
+        "normal_pr_limit": 0
+      },
+      "rebase_disabled": {
+        "observed_at": "2026-11-14T09:29:11.010971+00:00",
+        "passed": true,
+        "normal_initial_head": "7cfefdc56919697ba4c5da9227f296a765c0956e",
+        "disabled_initial_head": "af1d0813f6a68493ee6ee043f67ba8c88163f304",
+        "after": [
+          {
+            "number": 3,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/3",
+            "head": "18e84a76754df80f31364df40b065ef93655a2a2",
+            "mergeable": true,
+            "mergeable_state": "blocked"
+          },
+          {
+            "number": 6,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/6",
+            "head": "af1d0813f6a68493ee6ee043f67ba8c88163f304",
+            "mergeable": false,
+            "mergeable_state": "dirty"
+          }
+        ]
+      }
+    },
+    "observations": {
+      "initial": {
+        "observed_at": "2026-11-14T09:23:08.569846+00:00",
+        "label": "initial-cases-created",
+        "repository": "mergelog/dpb-test-live-verification-20261114",
+        "pull_requests": [
+          {
+            "number": 1,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/1",
+            "title": "Bump lodash from 4.17.20 to 4.18.1 in /cases/security",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "b67405bbd3374247dd54fd3bd24d255fc966b122",
+            "baseRefName": "control",
+            "reviewDecision": null,
+            "mergeStateStatus": "CLEAN",
+            "autoMergeRequest": null,
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/security/package-lock.json"
+                },
+                {
+                  "path": "cases/security/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 2,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/2",
+            "title": "Bump minimist from 1.2.5 to 1.2.6 in /cases/security",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "c603b6d9d27fd55257993a021e21efa76559c853",
+            "baseRefName": "control",
+            "reviewDecision": null,
+            "mergeStateStatus": "CLEAN",
+            "autoMergeRequest": null,
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/security/package-lock.json"
+                },
+                {
+                  "path": "cases/security/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 3,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/3",
+            "title": "Bump rxjs from 7.8.1 to 7.8.2 in /cases/limited",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "7cfefdc56919697ba4c5da9227f296a765c0956e",
+            "baseRefName": "main",
+            "reviewDecision": "REVIEW_REQUIRED",
+            "mergeStateStatus": "BLOCKED",
+            "autoMergeRequest": {
+              "enabledAt": "2026-11-14T09:22:41Z",
+              "mergeMethod": "SQUASH"
+            },
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/limited/package-lock.json"
+                },
+                {
+                  "path": "cases/limited/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 4,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/4",
+            "title": "Bump the default-control group with 2 updates",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "07ac002d44a565d14ab5263ee3b60e6ce849555f",
+            "baseRefName": "control",
+            "reviewDecision": null,
+            "mergeStateStatus": "CLEAN",
+            "autoMergeRequest": null,
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": []
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "package-lock.json"
+                },
+                {
+                  "path": "package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 5,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/5",
+            "title": "Bump rxjs from 7.8.1 to 7.8.2 in /cases/lockfile",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "75e454cf55f44cccc8374669dc38d809d622b95b",
+            "baseRefName": "main",
+            "reviewDecision": "REVIEW_REQUIRED",
+            "mergeStateStatus": "BLOCKED",
+            "autoMergeRequest": {
+              "enabledAt": "2026-11-14T09:22:43Z",
+              "mergeMethod": "SQUASH"
+            },
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/lockfile/package-lock.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 6,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/6",
+            "title": "Bump rxjs from 7.8.1 to 7.8.2 in /cases/rebase-disabled",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "af1d0813f6a68493ee6ee043f67ba8c88163f304",
+            "baseRefName": "main",
+            "reviewDecision": "REVIEW_REQUIRED",
+            "mergeStateStatus": "BLOCKED",
+            "autoMergeRequest": {
+              "enabledAt": "2026-11-14T09:22:45Z",
+              "mergeMethod": "SQUASH"
+            },
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/rebase-disabled/package-lock.json"
+                },
+                {
+                  "path": "cases/rebase-disabled/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 7,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/7",
+            "title": "Bump the all-dependencies group in /cases/target with 2 updates",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "db3d19c3d0e836fea0eef8b87445dad6ba9ddcd0",
+            "baseRefName": "dependency-testing",
+            "reviewDecision": null,
+            "mergeStateStatus": "CLEAN",
+            "autoMergeRequest": null,
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/target/package-lock.json"
+                },
+                {
+                  "path": "cases/target/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 8,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/8",
+            "title": "chore(deps): bump the all-dependencies group in /cases/grouped with 3 updates",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "e3a249f26f2815308feb98c74684807e41679b52",
+            "baseRefName": "main",
+            "reviewDecision": "REVIEW_REQUIRED",
+            "mergeStateStatus": "BLOCKED",
+            "autoMergeRequest": {
+              "enabledAt": "2026-11-14T09:22:52Z",
+              "mergeMethod": "SQUASH"
+            },
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": [
+                {
+                  "login": "mergelog"
+                }
+              ]
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/grouped/package-lock.json"
+                },
+                {
+                  "path": "cases/grouped/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          }
+        ],
+        "runs": [
+          {
+            "id": 43580274053,
+            "name": "Dependabot auto-merge",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580274053",
+            "event": "pull_request_target",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "e3a249f26f2815308feb98c74684807e41679b52",
+            "created_at": "2026-11-14T09:22:47Z",
+            "updated_at": "2026-11-14T09:22:54Z"
+          },
+          {
+            "id": 43580263769,
+            "name": "Dependabot auto-merge",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580263769",
+            "event": "pull_request_target",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "af1d0813f6a68493ee6ee043f67ba8c88163f304",
+            "created_at": "2026-11-14T09:22:39Z",
+            "updated_at": "2026-11-14T09:22:47Z"
+          },
+          {
+            "id": 43580260872,
+            "name": "Dependabot auto-merge",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580260872",
+            "event": "pull_request_target",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "75e454cf55f44cccc8374669dc38d809d622b95b",
+            "created_at": "2026-11-14T09:22:36Z",
+            "updated_at": "2026-11-14T09:22:46Z"
+          },
+          {
+            "id": 43580259580,
+            "name": "Dependabot auto-merge",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580259580",
+            "event": "pull_request_target",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "7cfefdc56919697ba4c5da9227f296a765c0956e",
+            "created_at": "2026-11-14T09:22:35Z",
+            "updated_at": "2026-11-14T09:22:43Z"
+          },
+          {
+            "id": 43580189794,
+            "name": "npm_and_yarn in /. - Update #1704191650",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580189794",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "849db930b541f6264e0166fa642de7a778115a9a",
+            "created_at": "2026-11-14T09:21:45Z",
+            "updated_at": "2026-11-14T09:22:32Z"
+          },
+          {
+            "id": 43580189306,
+            "name": "npm_and_yarn in /cases/lockfile - Update #1704191632",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580189306",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:21:45Z",
+            "updated_at": "2026-11-14T09:22:35Z"
+          },
+          {
+            "id": 43580188755,
+            "name": "npm_and_yarn in /cases/target - Update #1704191596",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580188755",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:21:45Z",
+            "updated_at": "2026-11-14T09:22:36Z"
+          },
+          {
+            "id": 43580188742,
+            "name": "npm_and_yarn in /cases/rebase-disabled - Update #1704191616",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580188742",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:21:45Z",
+            "updated_at": "2026-11-14T09:22:35Z"
+          },
+          {
+            "id": 43580187501,
+            "name": "npm_and_yarn in /cases/limited - Update #1704191574",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580187501",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:21:44Z",
+            "updated_at": "2026-11-14T09:22:46Z"
+          },
+          {
+            "id": 43580187224,
+            "name": "npm_and_yarn in /cases/grouped - Update #1704191565",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580187224",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:21:44Z",
+            "updated_at": "2026-11-14T09:22:44Z"
+          },
+          {
+            "id": 43579997016,
+            "name": "npm_and_yarn in /cases/security for minimist - Update #1704190198",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43579997016",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "6d44a346418fd228af148d12d633b9540af76dd0",
+            "created_at": "2026-11-14T09:19:21Z",
+            "updated_at": "2026-11-14T09:20:11Z"
+          },
+          {
+            "id": 43579996989,
+            "name": "npm_and_yarn in /cases/security for lodash - Update #1704190199",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43579996989",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "6d44a346418fd228af148d12d633b9540af76dd0",
+            "created_at": "2026-11-14T09:19:21Z",
+            "updated_at": "2026-11-14T09:20:03Z"
+          }
+        ]
+      },
+      "resumed": {
+        "observed_at": "2026-11-14T09:25:13.163362+00:00",
+        "label": "limit-two-and-resume",
+        "repository": "mergelog/dpb-test-live-verification-20261114",
+        "pull_requests": [
+          {
+            "number": 1,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/1",
+            "title": "Bump lodash from 4.17.20 to 4.18.1 in /cases/security",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "b67405bbd3374247dd54fd3bd24d255fc966b122",
+            "baseRefName": "control",
+            "reviewDecision": null,
+            "mergeStateStatus": "UNKNOWN",
+            "autoMergeRequest": null,
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/security/package-lock.json"
+                },
+                {
+                  "path": "cases/security/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 2,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/2",
+            "title": "Bump minimist from 1.2.5 to 1.2.6 in /cases/security",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "c603b6d9d27fd55257993a021e21efa76559c853",
+            "baseRefName": "control",
+            "reviewDecision": null,
+            "mergeStateStatus": "UNKNOWN",
+            "autoMergeRequest": null,
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/security/package-lock.json"
+                },
+                {
+                  "path": "cases/security/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 3,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/3",
+            "title": "Bump rxjs from 7.8.1 to 7.8.2 in /cases/limited",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "7cfefdc56919697ba4c5da9227f296a765c0956e",
+            "baseRefName": "main",
+            "reviewDecision": "REVIEW_REQUIRED",
+            "mergeStateStatus": "BLOCKED",
+            "autoMergeRequest": {
+              "enabledAt": "2026-11-14T09:22:41Z",
+              "mergeMethod": "SQUASH"
+            },
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/limited/package-lock.json"
+                },
+                {
+                  "path": "cases/limited/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 4,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/4",
+            "title": "Bump the default-control group with 2 updates",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "07ac002d44a565d14ab5263ee3b60e6ce849555f",
+            "baseRefName": "control",
+            "reviewDecision": null,
+            "mergeStateStatus": "UNKNOWN",
+            "autoMergeRequest": null,
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": []
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "package-lock.json"
+                },
+                {
+                  "path": "package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 5,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/5",
+            "title": "Bump rxjs from 7.8.1 to 7.8.2 in /cases/lockfile",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "75e454cf55f44cccc8374669dc38d809d622b95b",
+            "baseRefName": "main",
+            "reviewDecision": "REVIEW_REQUIRED",
+            "mergeStateStatus": "BLOCKED",
+            "autoMergeRequest": {
+              "enabledAt": "2026-11-14T09:22:43Z",
+              "mergeMethod": "SQUASH"
+            },
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/lockfile/package-lock.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 6,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/6",
+            "title": "Bump rxjs from 7.8.1 to 7.8.2 in /cases/rebase-disabled",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "af1d0813f6a68493ee6ee043f67ba8c88163f304",
+            "baseRefName": "main",
+            "reviewDecision": "REVIEW_REQUIRED",
+            "mergeStateStatus": "BLOCKED",
+            "autoMergeRequest": {
+              "enabledAt": "2026-11-14T09:22:45Z",
+              "mergeMethod": "SQUASH"
+            },
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/rebase-disabled/package-lock.json"
+                },
+                {
+                  "path": "cases/rebase-disabled/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 7,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/7",
+            "title": "Bump the all-dependencies group in /cases/target with 2 updates",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "db3d19c3d0e836fea0eef8b87445dad6ba9ddcd0",
+            "baseRefName": "dependency-testing",
+            "reviewDecision": null,
+            "mergeStateStatus": "CLEAN",
+            "autoMergeRequest": null,
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/target/package-lock.json"
+                },
+                {
+                  "path": "cases/target/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 8,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/8",
+            "title": "chore(deps): bump the all-dependencies group in /cases/grouped with 3 updates",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "e3a249f26f2815308feb98c74684807e41679b52",
+            "baseRefName": "main",
+            "reviewDecision": "REVIEW_REQUIRED",
+            "mergeStateStatus": "BLOCKED",
+            "autoMergeRequest": {
+              "enabledAt": "2026-11-14T09:22:52Z",
+              "mergeMethod": "SQUASH"
+            },
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": [
+                {
+                  "login": "mergelog"
+                }
+              ]
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/grouped/package-lock.json"
+                },
+                {
+                  "path": "cases/grouped/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 9,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/9",
+            "title": "Bump tslib from 2.8.1 to 2.9.1 in /cases/limited",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "7464788579c24f8050d9a85aa5cf36311e72bdd3",
+            "baseRefName": "main",
+            "reviewDecision": "REVIEW_REQUIRED",
+            "mergeStateStatus": "BLOCKED",
+            "autoMergeRequest": {
+              "enabledAt": "2026-11-14T09:24:56Z",
+              "mergeMethod": "SQUASH"
+            },
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/limited/package-lock.json"
+                },
+                {
+                  "path": "cases/limited/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 10,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/10",
+            "title": "Bump rxjs from 7.8.1 to 7.8.2 in /cases/paused",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "30ffc52f6d42ca4d45c9041800e21c301206aa54",
+            "baseRefName": "main",
+            "reviewDecision": "REVIEW_REQUIRED",
+            "mergeStateStatus": "BLOCKED",
+            "autoMergeRequest": {
+              "enabledAt": "2026-11-14T09:25:02Z",
+              "mergeMethod": "SQUASH"
+            },
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/paused/package-lock.json"
+                },
+                {
+                  "path": "cases/paused/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          }
+        ],
+        "runs": [
+          {
+            "id": 43580443961,
+            "name": "Dependabot auto-merge",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580443961",
+            "event": "pull_request_target",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "30ffc52f6d42ca4d45c9041800e21c301206aa54",
+            "created_at": "2026-11-14T09:24:57Z",
+            "updated_at": "2026-11-14T09:25:04Z"
+          },
+          {
+            "id": 43580435432,
+            "name": "Dependabot auto-merge",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580435432",
+            "event": "pull_request_target",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "7464788579c24f8050d9a85aa5cf36311e72bdd3",
+            "created_at": "2026-11-14T09:24:50Z",
+            "updated_at": "2026-11-14T09:24:59Z"
+          },
+          {
+            "id": 43580422091,
+            "name": "npm_and_yarn in /cases/security for lodash, lodash, lodash, lodash, minimist - Update #1704195430",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580422091",
+            "event": "dynamic",
+            "status": "in_progress",
+            "conclusion": null,
+            "head_sha": "02588f2cc8c1db3ed937d2683e6f91e8c1685805",
+            "created_at": "2026-11-14T09:24:40Z",
+            "updated_at": "2026-11-14T09:24:44Z"
+          },
+          {
+            "id": 43580381130,
+            "name": "npm_and_yarn in / for rxjs, tslib - Update #1704195131",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580381130",
+            "event": "dynamic",
+            "status": "in_progress",
+            "conclusion": null,
+            "head_sha": "d1f380b12e1ce1d199eee46d7b54d694785d26af",
+            "created_at": "2026-11-14T09:24:09Z",
+            "updated_at": "2026-11-14T09:25:00Z"
+          },
+          {
+            "id": 43580379408,
+            "name": "npm_and_yarn in /cases/target for rxjs, tslib - Update #1704195124",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580379408",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:24:07Z",
+            "updated_at": "2026-11-14T09:25:01Z"
+          },
+          {
+            "id": 43580378154,
+            "name": "npm_and_yarn in /cases/grouped for rxjs, tslib, typescript - Update #1704195110",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580378154",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:24:06Z",
+            "updated_at": "2026-11-14T09:25:06Z"
+          },
+          {
+            "id": 43580378123,
+            "name": "npm_and_yarn in /. - Update #1704195121",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580378123",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "d1f380b12e1ce1d199eee46d7b54d694785d26af",
+            "created_at": "2026-11-14T09:24:06Z",
+            "updated_at": "2026-11-14T09:24:44Z"
+          },
+          {
+            "id": 43580376923,
+            "name": "npm_and_yarn in /cases/rebase-disabled - Update #1704195111",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580376923",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:24:05Z",
+            "updated_at": "2026-11-14T09:24:53Z"
+          },
+          {
+            "id": 43580376801,
+            "name": "npm_and_yarn in /cases/target - Update #1704195107",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580376801",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:24:05Z",
+            "updated_at": "2026-11-14T09:24:38Z"
+          },
+          {
+            "id": 43580376571,
+            "name": "npm_and_yarn in /cases/lockfile - Update #1704195116",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580376571",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:24:05Z",
+            "updated_at": "2026-11-14T09:24:44Z"
+          },
+          {
+            "id": 43580376011,
+            "name": "npm_and_yarn in /cases/paused - Update #1704195102",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580376011",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:24:05Z",
+            "updated_at": "2026-11-14T09:24:59Z"
+          },
+          {
+            "id": 43580375319,
+            "name": "npm_and_yarn in /cases/limited - Update #1704195096",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580375319",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:24:04Z",
+            "updated_at": "2026-11-14T09:24:53Z"
+          },
+          {
+            "id": 43580375281,
+            "name": "npm_and_yarn in /cases/grouped - Update #1704195089",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580375281",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:24:04Z",
+            "updated_at": "2026-11-14T09:24:44Z"
+          },
+          {
+            "id": 43580274053,
+            "name": "Dependabot auto-merge",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580274053",
+            "event": "pull_request_target",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "e3a249f26f2815308feb98c74684807e41679b52",
+            "created_at": "2026-11-14T09:22:47Z",
+            "updated_at": "2026-11-14T09:22:54Z"
+          },
+          {
+            "id": 43580263769,
+            "name": "Dependabot auto-merge",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580263769",
+            "event": "pull_request_target",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "af1d0813f6a68493ee6ee043f67ba8c88163f304",
+            "created_at": "2026-11-14T09:22:39Z",
+            "updated_at": "2026-11-14T09:22:47Z"
+          },
+          {
+            "id": 43580260872,
+            "name": "Dependabot auto-merge",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580260872",
+            "event": "pull_request_target",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "75e454cf55f44cccc8374669dc38d809d622b95b",
+            "created_at": "2026-11-14T09:22:36Z",
+            "updated_at": "2026-11-14T09:22:46Z"
+          },
+          {
+            "id": 43580259580,
+            "name": "Dependabot auto-merge",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580259580",
+            "event": "pull_request_target",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "7cfefdc56919697ba4c5da9227f296a765c0956e",
+            "created_at": "2026-11-14T09:22:35Z",
+            "updated_at": "2026-11-14T09:22:43Z"
+          },
+          {
+            "id": 43580189794,
+            "name": "npm_and_yarn in /. - Update #1704191650",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580189794",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "849db930b541f6264e0166fa642de7a778115a9a",
+            "created_at": "2026-11-14T09:21:45Z",
+            "updated_at": "2026-11-14T09:22:32Z"
+          },
+          {
+            "id": 43580189306,
+            "name": "npm_and_yarn in /cases/lockfile - Update #1704191632",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580189306",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:21:45Z",
+            "updated_at": "2026-11-14T09:22:35Z"
+          },
+          {
+            "id": 43580188755,
+            "name": "npm_and_yarn in /cases/target - Update #1704191596",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580188755",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:21:45Z",
+            "updated_at": "2026-11-14T09:22:36Z"
+          },
+          {
+            "id": 43580188742,
+            "name": "npm_and_yarn in /cases/rebase-disabled - Update #1704191616",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580188742",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:21:45Z",
+            "updated_at": "2026-11-14T09:22:35Z"
+          },
+          {
+            "id": 43580187501,
+            "name": "npm_and_yarn in /cases/limited - Update #1704191574",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580187501",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:21:44Z",
+            "updated_at": "2026-11-14T09:22:46Z"
+          },
+          {
+            "id": 43580187224,
+            "name": "npm_and_yarn in /cases/grouped - Update #1704191565",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580187224",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:21:44Z",
+            "updated_at": "2026-11-14T09:22:44Z"
+          },
+          {
+            "id": 43579997016,
+            "name": "npm_and_yarn in /cases/security for minimist - Update #1704190198",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43579997016",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "6d44a346418fd228af148d12d633b9540af76dd0",
+            "created_at": "2026-11-14T09:19:21Z",
+            "updated_at": "2026-11-14T09:20:11Z"
+          },
+          {
+            "id": 43579996989,
+            "name": "npm_and_yarn in /cases/security for lodash - Update #1704190199",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43579996989",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "6d44a346418fd228af148d12d633b9540af76dd0",
+            "created_at": "2026-11-14T09:19:21Z",
+            "updated_at": "2026-11-14T09:20:03Z"
+          }
+        ]
+      },
+      "final": {
+        "observed_at": "2026-11-14T09:29:57.326404+00:00",
+        "label": "archived-final",
+        "repository": "mergelog/dpb-test-live-verification-20261114",
+        "pull_requests": [
+          {
+            "number": 1,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/1",
+            "title": "Bump lodash from 4.17.20 to 4.18.1 in /cases/security",
+            "state": "CLOSED",
+            "mergedAt": null,
+            "headRefOid": "b67405bbd3374247dd54fd3bd24d255fc966b122",
+            "baseRefName": "control",
+            "reviewDecision": null,
+            "mergeStateStatus": "UNKNOWN",
+            "autoMergeRequest": null,
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/security/package-lock.json"
+                },
+                {
+                  "path": "cases/security/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 2,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/2",
+            "title": "Bump minimist from 1.2.5 to 1.2.6 in /cases/security",
+            "state": "CLOSED",
+            "mergedAt": null,
+            "headRefOid": "c603b6d9d27fd55257993a021e21efa76559c853",
+            "baseRefName": "control",
+            "reviewDecision": null,
+            "mergeStateStatus": "UNKNOWN",
+            "autoMergeRequest": null,
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/security/package-lock.json"
+                },
+                {
+                  "path": "cases/security/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 3,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/3",
+            "title": "Bump rxjs from 7.8.1 to 7.8.2 in /cases/limited",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "18e84a76754df80f31364df40b065ef93655a2a2",
+            "baseRefName": "main",
+            "reviewDecision": "REVIEW_REQUIRED",
+            "mergeStateStatus": "BLOCKED",
+            "autoMergeRequest": null,
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/limited/package-lock.json"
+                },
+                {
+                  "path": "cases/limited/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 4,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/4",
+            "title": "Bump the default-control group across 1 directory with 2 updates",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "910d2d8f2e120fdbbe737fc1a94cd761de6be8e1",
+            "baseRefName": "control",
+            "reviewDecision": null,
+            "mergeStateStatus": "UNKNOWN",
+            "autoMergeRequest": null,
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": []
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "package-lock.json"
+                },
+                {
+                  "path": "package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 5,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/5",
+            "title": "Bump rxjs from 7.8.1 to 7.8.2 in /cases/lockfile",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "75e454cf55f44cccc8374669dc38d809d622b95b",
+            "baseRefName": "main",
+            "reviewDecision": "REVIEW_REQUIRED",
+            "mergeStateStatus": "BLOCKED",
+            "autoMergeRequest": null,
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/lockfile/package-lock.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 6,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/6",
+            "title": "Bump rxjs from 7.8.1 to 7.8.2 in /cases/rebase-disabled",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "af1d0813f6a68493ee6ee043f67ba8c88163f304",
+            "baseRefName": "main",
+            "reviewDecision": "REVIEW_REQUIRED",
+            "mergeStateStatus": "DIRTY",
+            "autoMergeRequest": null,
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/rebase-disabled/package-lock.json"
+                },
+                {
+                  "path": "cases/rebase-disabled/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 7,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/7",
+            "title": "Bump the all-dependencies group in /cases/target with 2 updates",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "db3d19c3d0e836fea0eef8b87445dad6ba9ddcd0",
+            "baseRefName": "dependency-testing",
+            "reviewDecision": null,
+            "mergeStateStatus": "BLOCKED",
+            "autoMergeRequest": null,
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/target/package-lock.json"
+                },
+                {
+                  "path": "cases/target/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 8,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/8",
+            "title": "chore(deps): bump the all-dependencies group in /cases/grouped with 3 updates",
+            "state": "MERGED",
+            "mergedAt": "2026-11-14T09:26:02Z",
+            "headRefOid": "6739936790f21130705fbba0d526496c115ab011",
+            "baseRefName": "main",
+            "reviewDecision": "REVIEW_REQUIRED",
+            "mergeStateStatus": "UNKNOWN",
+            "autoMergeRequest": {
+              "enabledAt": "2026-11-14T09:22:52Z",
+              "mergeMethod": "SQUASH"
+            },
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": [
+                {
+                  "login": "mergelog"
+                }
+              ]
+            },
+            "reviewRequests": {
+              "nodes": []
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/grouped/package-lock.json"
+                },
+                {
+                  "path": "cases/grouped/package.json"
+                },
+                {
+                  "path": "cases/limited/package-lock.json"
+                },
+                {
+                  "path": "cases/limited/package.json"
+                },
+                {
+                  "path": "cases/rebase-disabled/package-lock.json"
+                },
+                {
+                  "path": "cases/rebase-disabled/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": [
+                {
+                  "author": {
+                    "login": "mergelog"
+                  },
+                  "state": "APPROVED",
+                  "submittedAt": "2026-11-14T09:25:52Z"
+                }
+              ]
+            }
+          },
+          {
+            "number": 9,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/9",
+            "title": "Bump tslib from 2.8.1 to 2.9.1 in /cases/limited",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "77fe43678f65f600898d98e09c46e5208f9f1e74",
+            "baseRefName": "main",
+            "reviewDecision": "REVIEW_REQUIRED",
+            "mergeStateStatus": "BLOCKED",
+            "autoMergeRequest": null,
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/limited/package-lock.json"
+                },
+                {
+                  "path": "cases/limited/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 10,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/10",
+            "title": "Bump rxjs from 7.8.1 to 7.8.2 in /cases/paused",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "30ffc52f6d42ca4d45c9041800e21c301206aa54",
+            "baseRefName": "main",
+            "reviewDecision": "REVIEW_REQUIRED",
+            "mergeStateStatus": "BLOCKED",
+            "autoMergeRequest": null,
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/paused/package-lock.json"
+                },
+                {
+                  "path": "cases/paused/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          },
+          {
+            "number": 11,
+            "url": "https://github.com/mergelog/dpb-test-live-verification-20261114/pull/11",
+            "title": "Bump the security-fixes group across 1 directory with 2 updates",
+            "state": "OPEN",
+            "mergedAt": null,
+            "headRefOid": "e947cbba6b65dc79b0053fac73894b12807826ec",
+            "baseRefName": "control",
+            "reviewDecision": null,
+            "mergeStateStatus": "UNKNOWN",
+            "autoMergeRequest": null,
+            "author": {
+              "login": "dependabot"
+            },
+            "labels": {
+              "nodes": [
+                {
+                  "name": "dependencies"
+                },
+                {
+                  "name": "javascript"
+                }
+              ]
+            },
+            "assignees": {
+              "nodes": []
+            },
+            "reviewRequests": {
+              "nodes": [
+                {
+                  "requestedReviewer": {
+                    "login": "mergelog"
+                  }
+                }
+              ]
+            },
+            "files": {
+              "nodes": [
+                {
+                  "path": "cases/security/package-lock.json"
+                },
+                {
+                  "path": "cases/security/package.json"
+                }
+              ]
+            },
+            "reviews": {
+              "nodes": []
+            }
+          }
+        ],
+        "runs": [
+          {
+            "id": 43580683355,
+            "name": "Dependabot auto-merge",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580683355",
+            "event": "pull_request_target",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "77fe43678f65f600898d98e09c46e5208f9f1e74",
+            "created_at": "2026-11-14T09:28:07Z",
+            "updated_at": "2026-11-14T09:28:18Z"
+          },
+          {
+            "id": 43580676027,
+            "name": "Dependabot auto-merge",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580676027",
+            "event": "pull_request_target",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "18e84a76754df80f31364df40b065ef93655a2a2",
+            "created_at": "2026-11-14T09:28:01Z",
+            "updated_at": "2026-11-14T09:28:11Z"
+          },
+          {
+            "id": 43580617014,
+            "name": "npm_and_yarn in /cases/limited for tslib - Update #1704196860",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580617014",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "7ea6eacfeee1361bdeb53a0b1127cec38639d7b4",
+            "created_at": "2026-11-14T09:27:12Z",
+            "updated_at": "2026-11-14T09:28:03Z"
+          },
+          {
+            "id": 43580612658,
+            "name": "npm_and_yarn in /cases/limited for rxjs - Update #1704196828",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580612658",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "7ea6eacfeee1361bdeb53a0b1127cec38639d7b4",
+            "created_at": "2026-11-14T09:27:08Z",
+            "updated_at": "2026-11-14T09:27:56Z"
+          },
+          {
+            "id": 43580513456,
+            "name": "npm_and_yarn in / for rxjs, tslib - Update #1704196111",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580513456",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "f00b4666ba5068e955a10813f423caa0d9caa9d5",
+            "created_at": "2026-11-14T09:25:50Z",
+            "updated_at": "2026-11-14T09:26:42Z"
+          },
+          {
+            "id": 43580511352,
+            "name": "npm_and_yarn in /cases/target for rxjs, tslib - Update #1704196096",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580511352",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:25:48Z",
+            "updated_at": "2026-11-14T09:26:28Z"
+          },
+          {
+            "id": 43580510416,
+            "name": "npm_and_yarn in /cases/grouped for rxjs, tslib, typescript - Update #1704196087",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580510416",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:25:48Z",
+            "updated_at": "2026-11-14T09:26:33Z"
+          },
+          {
+            "id": 43580509524,
+            "name": "npm_and_yarn in /cases/lockfile - Update #1704196089",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580509524",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:25:47Z",
+            "updated_at": "2026-11-14T09:26:34Z"
+          },
+          {
+            "id": 43580509028,
+            "name": "npm_and_yarn in /. - Update #1704196093",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580509028",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "f00b4666ba5068e955a10813f423caa0d9caa9d5",
+            "created_at": "2026-11-14T09:25:46Z",
+            "updated_at": "2026-11-14T09:26:26Z"
+          },
+          {
+            "id": 43580508921,
+            "name": "npm_and_yarn in /cases/target - Update #1704196079",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580508921",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:25:46Z",
+            "updated_at": "2026-11-14T09:26:28Z"
+          },
+          {
+            "id": 43580508845,
+            "name": "npm_and_yarn in /cases/rebase-disabled - Update #1704196085",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580508845",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:25:46Z",
+            "updated_at": "2026-11-14T09:26:31Z"
+          },
+          {
+            "id": 43580508097,
+            "name": "npm_and_yarn in /cases/limited - Update #1704196076",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580508097",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:25:46Z",
+            "updated_at": "2026-11-14T09:26:36Z"
+          },
+          {
+            "id": 43580507866,
+            "name": "npm_and_yarn in /cases/grouped - Update #1704196069",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580507866",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:25:46Z",
+            "updated_at": "2026-11-14T09:26:25Z"
+          },
+          {
+            "id": 43580470809,
+            "name": "Dependabot auto-merge",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580470809",
+            "event": "pull_request_target",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "6739936790f21130705fbba0d526496c115ab011",
+            "created_at": "2026-11-14T09:25:17Z",
+            "updated_at": "2026-11-14T09:25:25Z"
+          },
+          {
+            "id": 43580443961,
+            "name": "Dependabot auto-merge",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580443961",
+            "event": "pull_request_target",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "30ffc52f6d42ca4d45c9041800e21c301206aa54",
+            "created_at": "2026-11-14T09:24:57Z",
+            "updated_at": "2026-11-14T09:25:04Z"
+          },
+          {
+            "id": 43580435432,
+            "name": "Dependabot auto-merge",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580435432",
+            "event": "pull_request_target",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "7464788579c24f8050d9a85aa5cf36311e72bdd3",
+            "created_at": "2026-11-14T09:24:50Z",
+            "updated_at": "2026-11-14T09:24:59Z"
+          },
+          {
+            "id": 43580422091,
+            "name": "npm_and_yarn in /cases/security for lodash, lodash, lodash, lodash, minimist - Update #1704195430",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580422091",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "02588f2cc8c1db3ed937d2683e6f91e8c1685805",
+            "created_at": "2026-11-14T09:24:40Z",
+            "updated_at": "2026-11-14T09:25:34Z"
+          },
+          {
+            "id": 43580381130,
+            "name": "npm_and_yarn in / for rxjs, tslib - Update #1704195131",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580381130",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "d1f380b12e1ce1d199eee46d7b54d694785d26af",
+            "created_at": "2026-11-14T09:24:09Z",
+            "updated_at": "2026-11-14T09:25:32Z"
+          },
+          {
+            "id": 43580379408,
+            "name": "npm_and_yarn in /cases/target for rxjs, tslib - Update #1704195124",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580379408",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:24:07Z",
+            "updated_at": "2026-11-14T09:25:01Z"
+          },
+          {
+            "id": 43580378154,
+            "name": "npm_and_yarn in /cases/grouped for rxjs, tslib, typescript - Update #1704195110",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580378154",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:24:06Z",
+            "updated_at": "2026-11-14T09:25:06Z"
+          },
+          {
+            "id": 43580378123,
+            "name": "npm_and_yarn in /. - Update #1704195121",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580378123",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "d1f380b12e1ce1d199eee46d7b54d694785d26af",
+            "created_at": "2026-11-14T09:24:06Z",
+            "updated_at": "2026-11-14T09:24:44Z"
+          },
+          {
+            "id": 43580376923,
+            "name": "npm_and_yarn in /cases/rebase-disabled - Update #1704195111",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580376923",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:24:05Z",
+            "updated_at": "2026-11-14T09:24:53Z"
+          },
+          {
+            "id": 43580376801,
+            "name": "npm_and_yarn in /cases/target - Update #1704195107",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580376801",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:24:05Z",
+            "updated_at": "2026-11-14T09:24:38Z"
+          },
+          {
+            "id": 43580376571,
+            "name": "npm_and_yarn in /cases/lockfile - Update #1704195116",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580376571",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:24:05Z",
+            "updated_at": "2026-11-14T09:24:44Z"
+          },
+          {
+            "id": 43580376011,
+            "name": "npm_and_yarn in /cases/paused - Update #1704195102",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580376011",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:24:05Z",
+            "updated_at": "2026-11-14T09:24:59Z"
+          },
+          {
+            "id": 43580375319,
+            "name": "npm_and_yarn in /cases/limited - Update #1704195096",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580375319",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:24:04Z",
+            "updated_at": "2026-11-14T09:24:53Z"
+          },
+          {
+            "id": 43580375281,
+            "name": "npm_and_yarn in /cases/grouped - Update #1704195089",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580375281",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:24:04Z",
+            "updated_at": "2026-11-14T09:24:44Z"
+          },
+          {
+            "id": 43580274053,
+            "name": "Dependabot auto-merge",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580274053",
+            "event": "pull_request_target",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "e3a249f26f2815308feb98c74684807e41679b52",
+            "created_at": "2026-11-14T09:22:47Z",
+            "updated_at": "2026-11-14T09:22:54Z"
+          },
+          {
+            "id": 43580263769,
+            "name": "Dependabot auto-merge",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580263769",
+            "event": "pull_request_target",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "af1d0813f6a68493ee6ee043f67ba8c88163f304",
+            "created_at": "2026-11-14T09:22:39Z",
+            "updated_at": "2026-11-14T09:22:47Z"
+          },
+          {
+            "id": 43580260872,
+            "name": "Dependabot auto-merge",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580260872",
+            "event": "pull_request_target",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "75e454cf55f44cccc8374669dc38d809d622b95b",
+            "created_at": "2026-11-14T09:22:36Z",
+            "updated_at": "2026-11-14T09:22:46Z"
+          },
+          {
+            "id": 43580259580,
+            "name": "Dependabot auto-merge",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580259580",
+            "event": "pull_request_target",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "7cfefdc56919697ba4c5da9227f296a765c0956e",
+            "created_at": "2026-11-14T09:22:35Z",
+            "updated_at": "2026-11-14T09:22:43Z"
+          },
+          {
+            "id": 43580189794,
+            "name": "npm_and_yarn in /. - Update #1704191650",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580189794",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "849db930b541f6264e0166fa642de7a778115a9a",
+            "created_at": "2026-11-14T09:21:45Z",
+            "updated_at": "2026-11-14T09:22:32Z"
+          },
+          {
+            "id": 43580189306,
+            "name": "npm_and_yarn in /cases/lockfile - Update #1704191632",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580189306",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:21:45Z",
+            "updated_at": "2026-11-14T09:22:35Z"
+          },
+          {
+            "id": 43580188755,
+            "name": "npm_and_yarn in /cases/target - Update #1704191596",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580188755",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:21:45Z",
+            "updated_at": "2026-11-14T09:22:36Z"
+          },
+          {
+            "id": 43580188742,
+            "name": "npm_and_yarn in /cases/rebase-disabled - Update #1704191616",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580188742",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:21:45Z",
+            "updated_at": "2026-11-14T09:22:35Z"
+          },
+          {
+            "id": 43580187501,
+            "name": "npm_and_yarn in /cases/limited - Update #1704191574",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580187501",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:21:44Z",
+            "updated_at": "2026-11-14T09:22:46Z"
+          },
+          {
+            "id": 43580187224,
+            "name": "npm_and_yarn in /cases/grouped - Update #1704191565",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43580187224",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "0c072444a7d1ec836cd93a7880ca1bc11884478c",
+            "created_at": "2026-11-14T09:21:44Z",
+            "updated_at": "2026-11-14T09:22:44Z"
+          },
+          {
+            "id": 43579997016,
+            "name": "npm_and_yarn in /cases/security for minimist - Update #1704190198",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43579997016",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "6d44a346418fd228af148d12d633b9540af76dd0",
+            "created_at": "2026-11-14T09:19:21Z",
+            "updated_at": "2026-11-14T09:20:11Z"
+          },
+          {
+            "id": 43579996989,
+            "name": "npm_and_yarn in /cases/security for lodash - Update #1704190199",
+            "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/actions/runs/43579996989",
+            "event": "dynamic",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "6d44a346418fd228af148d12d633b9540af76dd0",
+            "created_at": "2026-11-14T09:19:21Z",
+            "updated_at": "2026-11-14T09:20:03Z"
+          }
+        ]
+      }
+    },
+    "alerts": [
+      {
+        "number": 10,
+        "state": "open",
+        "package": "lodash",
+        "manifest": "cases/security-grouped/package-lock.json",
+        "ghsa": "GHSA-r5fr-rjxr-66jc"
+      },
+      {
+        "number": 9,
+        "state": "open",
+        "package": "lodash",
+        "manifest": "cases/security-grouped/package-lock.json",
+        "ghsa": "GHSA-xxjr-mmjv-4gpg"
+      },
+      {
+        "number": 8,
+        "state": "open",
+        "package": "lodash",
+        "manifest": "cases/security-grouped/package-lock.json",
+        "ghsa": "GHSA-29mw-wpgm-hmr9"
+      },
+      {
+        "number": 7,
+        "state": "open",
+        "package": "minimist",
+        "manifest": "cases/security-grouped/package-lock.json",
+        "ghsa": "GHSA-xvch-5gv4-984h"
+      },
+      {
+        "number": 6,
+        "state": "open",
+        "package": "lodash",
+        "manifest": "cases/security-grouped/package-lock.json",
+        "ghsa": "GHSA-35jh-r3h4-6jhm"
+      },
+      {
+        "number": 5,
+        "state": "open",
+        "package": "lodash",
+        "manifest": "cases/security/package-lock.json",
+        "ghsa": "GHSA-r5fr-rjxr-66jc"
+      },
+      {
+        "number": 4,
+        "state": "open",
+        "package": "lodash",
+        "manifest": "cases/security/package-lock.json",
+        "ghsa": "GHSA-xxjr-mmjv-4gpg"
+      },
+      {
+        "number": 3,
+        "state": "open",
+        "package": "lodash",
+        "manifest": "cases/security/package-lock.json",
+        "ghsa": "GHSA-29mw-wpgm-hmr9"
+      },
+      {
+        "number": 2,
+        "state": "open",
+        "package": "minimist",
+        "manifest": "cases/security/package-lock.json",
+        "ghsa": "GHSA-xvch-5gv4-984h"
+      },
+      {
+        "number": 1,
+        "state": "open",
+        "package": "lodash",
+        "manifest": "cases/security/package-lock.json",
+        "ghsa": "GHSA-35jh-r3h4-6jhm"
+      }
+    ],
+    "stopped": {
+      "observed_at": "2026-11-14T09:29:53.379774+00:00",
+      "repository": "https://github.com/mergelog/dpb-test-live-verification-20261114",
+      "archived": true,
+      "default_branch": "control",
+      "stop_commit": "53340df24669402afe575aa3fbc848c51349e686",
+      "all_normal_update_limits_zero": true,
+      "security_fixes": {
+        "enabled": false,
+        "paused": false
+      },
+      "main_protection": {
+        "required_approving_review_count": 1,
+        "enforce_admins": true
+      },
+      "config_checks": [
+        {
+          "name": ".github/dependabot.yml",
+          "conclusion": "success",
+          "html_url": "https://github.com/mergelog/dpb-test-live-verification-20261114/runs/132404826934"
+        }
+      ]
+    }
+  },
+  "service_validation_constraints": {
+    "cron_minimum_interval_hours": 24,
+    "rejected_check": "https://github.com/mergelog/dpb-test-live-verification-20261114/runs/132402432571",
+    "time_requires_string": true,
+    "generated_yaml_time_rejected_check": "https://github.com/mergelog/dpb-test-live-verification-20261114/runs/132399524960"
+  },
+  "limitations": [
+    "Exact weekly wall-clock timing and the 30-day existing-PR rebasing grace period are not tested.",
+    "Private registry credentials and settings for a real external service are not tested.",
+    "Email notification delivery is not tested.",
+    "The additional security-grouped fixture produced alerts; it is not counted as another successful PR-grouping test."
+  ]
+}

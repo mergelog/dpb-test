@@ -1,0 +1,258 @@
+# Dependabotの便利な設定例（無効・参考用）
+#
+# このファイル名はDependabotの設定対象ではないため、保存しても更新処理は変わらない。
+# 実際の設定ファイルは.github/dependabot.yml（またはdependabot.yaml）。
+# 動作検証の方法・結果・対象外の範囲は、ルートのdocs/dependabot-verification.mdを参照。
+# CLIのdry-runは実際のPRを作らず、GitHubのスケジューラやPR上限を再現するものではない。
+#
+# 使い方:
+# - 各「ケース」は独立した設定例。---はケースの区切りで、丸ごとコピーしない。
+# - 1ケースを選んで編集するか、必要な項目だけ実際の設定へ移す。
+# - 同名キーの重複や、同じecosystem・対象ディレクトリ・対象ブランチの重複を避ける。
+# - 例の設定は既存設定と自動合成されない。必要なignore・groupsなどは引き継ぐ。
+# - マージ先に反映してから実行ログを確認する。
+# - レビュー依頼先はCODEOWNERS、承認条件はGitHubのブランチ保護で別途設定する。
+# - 自動マージにはAllow auto-mergeとワークフローが必要。承認条件も維持する。
+# - timeの時刻文字列は引用符で囲む。YAML生成ツールが引用符を外す場合も要確認。
+# - cronを使う場合も最小間隔は24時間。5分おきなどは実サービスで拒否される。
+# - 設定変更コミットのChecksにある「.github/dependabot.yml」の検証結果も確認する。
+#
+# ケース一覧:
+# 1. 週1回にまとめ、リリース直後の更新を少し待つ
+# 2. Angular・本番依存・開発依存にPRを分ける
+# 3. パッチ更新だけを候補にする
+# 4. マニフェストを変えずlockfileだけを更新する
+# 5. GitHub Actionsのバージョンも更新対象にする
+# 6. 通常更新を止め、セキュリティ更新をグループ化する
+# 7. 複数プロジェクトを監視し、不要なパスを除外する
+# 8. private npm registryを利用する
+# 9. 通常更新PRの新規作成を一時停止する
+#
+# 公式リファレンス（GitHub.comの現行仕様を確認して採用すること）:
+# https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference
+
+# ケース1: 週1回の一括更新 + クールダウン + PRの整理
+# groups・schedule・cooldownなどを組み合わせ、レビューの頻度を抑える例。
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Tokyo"
+    open-pull-requests-limit: 3
+    groups:
+      all-dependencies:
+        patterns: ["*"]
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+    # リリースから候補になるまで待つ日数。通常更新用で、セキュリティ更新には適用しない。
+    # 指定日数の経過後、次の更新確認時に候補になる。7日後ちょうどにPRが出るわけではない。
+    cooldown:
+      default-days: 7
+      semver-minor-days: 7
+      semver-patch-days: 3
+    # 検証ですぐ更新候補を見たい場合は、上のcooldown全体を次に置き換える例:
+    # 全パッケージを待機対象から外す。0日指定は公開スキーマとの互換性を避けて使わない。
+    # cooldown:
+    #   default-days: 7
+    #   exclude: ["*"]
+
+    # PRタイトル・コミットメッセージの接頭辞。グループ名もPRタイトルなどに使われる。
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+
+    # 指定すると既定ラベルを置き換える。利用するラベルはリポジトリに作成しておく。
+    # 存在しないラベルは無視される。
+    labels: ["dependencies"]
+    # assigneesは対応担当者であり、レビュー依頼・承認の設定ではない。
+    # 移行先ではwrite権限などの条件を満たすユーザー名に変更する。
+    assignees: ["mergelog"]
+
+---
+# ケース2: Angularは一緒に保ち、残りを本番・開発依存で分ける
+# 複数のグループに一致する依存は、先に一致したグループへ入る。
+# groups.update-typesはmajor/minor/patchという短い値を使う。
+# グループに入らない更新は個別PRになり得るため、更新自体の除外はignoreで行う。
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      angular:
+        patterns: ["@angular/*"]
+      production-dependencies:
+        dependency-type: "production"
+        patterns: ["*"]
+        exclude-patterns: ["@angular/*"]
+        update-types: ["minor", "patch"]
+      development-dependencies:
+        dependency-type: "development"
+        patterns: ["*"]
+        exclude-patterns: ["@angular/*"]
+        update-types: ["minor", "patch"]
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+---
+# ケース3: パッチ更新だけに限定する
+# Angular 20.3.34→20.3.35のような更新を候補にし、マイナー・メジャーを除外する。
+# パッチ更新でも互換性や安全性を保証するものではない。
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "09:00"
+      timezone: "Asia/Tokyo"
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-major"
+          - "version-update:semver-minor"
+      # 特定バージョンの除外を追加する例。対象バージョンを実際の事情に合わせる。
+      # - dependency-name: "rxjs"
+      #   versions: ["7.8.2"]
+
+    # allowで対象を絞る例。採用すると対象外の依存の通常更新は作成されない。
+    # 本番依存だけにすると、開発依存のcompiler-cliなどとの互換性に注意する。
+    # allow:
+    #   - dependency-type: "production"
+    # allowとignoreの両方に一致した依存はignoreが優先される。
+
+---
+# ケース4: package.jsonの許容範囲を保ち、lockfileだけを更新する
+# 現在のような完全固定バージョンでは、許容範囲外の新バージョンは候補にならない。
+# マニフェストも更新したい通常運用では、この戦略をそのまま使わない。
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    versioning-strategy: "lockfile-only"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+    # 現在の許容範囲で新バージョンを扱えるなら、範囲変更を避ける別の選択肢:
+    # versioning-strategy: "increase-if-necessary"
+    # 上のversioning-strategyと置き換える。両方を同時に定義しない。
+
+    # 自動再ベースを止め、競合解消を手動管理する場合だけ追加する:
+    # rebase-strategy: "disabled"
+    # 既存PRでは停止設定後もしばらく自動再ベースが継続する場合がある。
+    # 停止後は競合解消と、必要に応じた再承認を手動で管理する。
+
+---
+# ケース5: GitHub Actionsで使うアクションも監視する
+# npmとは異なるecosystemなので、既存updatesへこのブロックを追加できる。
+# npmのグループとは別PRになる。通常のgroupsでecosystemをまたいでまとめない。
+# uses:で参照するアクションが対象。参照バージョンに新しい更新がなければPRは作られない。
+# 自動マージ用ワークフロー自体にuses:はないが、検証ワークフローの参照も監視対象になる。
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    groups:
+      github-actions:
+        patterns: ["*"]
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+---
+# ケース6: 通常更新を止め、セキュリティ更新PRをまとめる
+# 前提: GitHubでDependency graph・Dependabot alerts・security updatesを有効にする。
+# このファイルを書くだけではセキュリティ更新は有効にならない。
+# scheduleは通常更新の設定。脆弱性対応がこの曜日まで待機するという意味ではない。
+# 既存の自動マージワークフローは条件に合うセキュリティ更新PRも対象にする。
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    # 通常更新だけを停止する。セキュリティ更新は別枠の同時10件まで。
+    open-pull-requests-limit: 0
+    groups:
+      security-updates:
+        applies-to: "security-updates"
+        patterns: ["*"]
+
+---
+# ケース7: モノレポなどで複数のpackage.jsonを監視する
+# 実在するプロジェクトのパスに変更する。ルートのpackage.jsonも必要なら/を追加する。
+# directoryとdirectoriesは同じupdatesブロックに併記しない。
+# ロックファイル共有型のnpm workspaceでは、まずルートの設定で監視できるか確認する。
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directories:
+      - "/apps/*"
+      - "/packages/*"
+    schedule:
+      interval: "weekly"
+    # パスは各対象ディレクトリからの相対指定。監視不要なマニフェストを除外する。
+    exclude-paths:
+      - "fixtures/**"
+      - "vendor/**"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+---
+# ケース8: private npm registryの認証を指定する
+# URLは説明用。実際のregistry URLに変更し、Settings → Secrets and variables →
+# DependabotへNPM_PRIVATE_TOKENを登録する。トークンの値をファイルへ書かない。
+# Actions用SecretsがそのままDependabotへ共有される前提にしない。
+# registryのURLにはHTTPSを使う。公式proxyはHTTPリクエストへ認証情報を付けない。
+# 自動検証には一時的なHTTPS registryと仮トークンを使う。実際の接続先・資格情報は別途確認する。
+# https://docs.github.com/en/code-security/how-tos/secure-your-supply-chain/manage-your-dependency-security/configure-access-to-private-registries
+version: 2
+registries:
+  private-npm:
+    type: "npm-registry"
+    url: "https://registry.example.invalid"
+    token: "${{secrets.NPM_PRIVATE_TOKEN}}"
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    registries: ["private-npm"]
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+---
+# ケース9: 通常更新PRの新規作成を一時停止する
+# 再開時はopen-pull-requests-limitを元の件数へ戻す。
+# 既存PRは閉じず、自動マージ予約も解除しない。必要ならPR側で個別解除する。
+# セキュリティ更新の停止や、自動マージ用ワークフローの停止は別の操作。
+# PR上限と停止・再開はGitHub側の制御。CLIのupdater dry-runで動作確認できる範囲には含まれない。
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 0
+
+    # 通常更新PRを検証用ブランチへ向ける場合の別オプション:
+    # target-branch: "dependency-testing"
+    # そのブランチを先に作成する。候補の基準もそのブランチの依存になる。
+    # 現在の自動マージワークフローはmain向けだけなので、必要なら対象条件も変更する。
+    # セキュリティ更新の対象はデフォルトブランチのまま。保護ルールも別途確認する。
