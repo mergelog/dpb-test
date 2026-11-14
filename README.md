@@ -34,3 +34,11 @@ npm run build
 `.github/dependabot.yml` で、ルートのnpm依存を毎日09:00（日本時間）に確認する設定です。Angular関連はまとめて更新し、Angular 20でのテストを続けられるようメジャー更新は全依存で除外しています。
 
 push後はGitHubの **Insights → Dependency graph → Dependabot** から実行状況を確認できます。必要なら **Check for updates** で手動実行してください。
+
+## 承認後の自動マージ
+
+DependabotのPRは `.github/CODEOWNERS` に従ってmergelogにレビューを依頼し、`.github/workflows/dependabot-auto-merge.yml` で自動マージを予約します。GitHub側で `Allow auto-merge` を有効にし、`main` のブランチ保護で1名の承認を必須にしています（管理者にも適用）。承認が揃うとGitHubがマージし、更新コミットが追加された場合は再承認が必要です。
+
+このワークフローはレビューを自動承認しません。レビュー権限のあるユーザーがPRの **Files changed → Review changes → Approve** から承認してください。
+
+`Allow auto-merge` とブランチ保護はGitHubのリポジトリ設定なので、このリポジトリを別の場所へ複製した場合は設定し直してください。
