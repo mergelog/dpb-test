@@ -1,6 +1,6 @@
 # Dependabot設定例の動作検証
 
-確認日: 2026年11月14日。[初回の15種類のupdaterテスト](https://github.com/mergelog/dpb-test/actions/runs/43577422631)は成功しています。メジャー更新の除外条件をより厳密に確認する最終実行は確認中です。
+確認日: 2026年11月14日。**17パターンの設定検証と15種類の公式updaterテストがすべて成功しました。** [最終実行ログ](https://github.com/mergelog/dpb-test/actions/runs/43577956660)、[ケース別の実測結果JSON](dependabot-verification-results.json)から確認できます。検証したコードはコミット `cc4514f` です。
 
 対象は [.github/dependabot.examples.yml.disabled](../.github/dependabot.examples.yml.disabled) の9ケースと、設定ファイル内のコメントアウトした代替設定です。有効なDependabot設定値、ブランチ保護、セキュリティ更新の有効・無効は変更していません。
 
@@ -13,11 +13,13 @@
 
 CLIは更新処理を実行し、PR作成要求をテスト用APIへ記録します。実リポジトリへテスト用更新PRを作成・マージしません。GitHubのスケジュールや通知処理まで再現する機能ではありません。[公式CLIの説明](https://github.com/dependabot/cli#dependabot-update)
 
+CLIへ渡すのは `dependabot.yml` そのものではなく、検証スクリプトで対象オプションを変換したジョブ定義です。グループ化・除外・更新戦略などのupdater動作を検証し、GitHubサービスが管理する項目は下表で区別しています。[公式CLI：ジョブ定義](https://github.com/dependabot/cli#job-description-file)
+
 スキーマはSchemaStoreのコミット `e2606e03284e60792672dc9e7e930f3c496c5c3d` を使用します。これはGitHubサービスそのものの検証APIではありません。[使用するスキーマ](https://github.com/SchemaStore/schemastore/blob/e2606e03284e60792672dc9e7e930f3c496c5c3d/src/schemas/json/dependabot-2.0.json)
 
-## updaterテストの期待値
+## updaterテストの実測結果（全15ケース成功）
 
-| テスト | 確認する結果 |
+| テスト | 確認できた結果（PR件数はdry-runの作成提案） |
 | --- | --- |
 | `all` | 5依存を1件のPRへまとめ、`chore(deps):` のタイトルを生成する |
 | `split` | Angular、本番依存、開発依存の3件に分かれる |
@@ -25,12 +27,12 @@ CLIは更新処理を実行し、PR作成要求をテスト用APIへ記録しま
 | `ignored-version` | RxJS 7.8.2も除外し、3依存だけを提案する |
 | `production` | 開発依存を除外し、本番依存の3依存だけを提案する |
 | `lockfile-pinned` | 完全固定の範囲を超える更新を提案しない（0件） |
-| `lockfile-range` | 許容範囲内でlockfileだけを更新し、package.jsonを変えない |
-| `increase-if-necessary` | 既存範囲が新バージョンを許容する場合、package.jsonを変えない |
+| `lockfile-range` | 5件の提案はいずれもlockfileだけを更新し、package.jsonを変えない |
+| `increase-if-necessary` | 5件の提案で、既存範囲が新バージョンを許容するpackage.jsonを変えない |
 | `cooldown-excluded` | コメント内の`exclude: ["*"]`を有効化すると5依存をまとめて更新する |
 | `actions` | 2つのActions更新を1件にまとめ、メジャー更新を除外する |
 | `security` | 仮の脆弱性情報に対する2依存の修正を1件にまとめる |
-| `directories` | `/apps/web`・`/packages/shared`の更新を提案し、除外したfixturesを変更しない |
+| `directories` | `/apps/web`・`/packages/shared`で各5件、計10件を提案し、除外したfixturesを変更しない |
 | `registry` | 認証付きHTTPS registryから1.0.0→1.0.1の更新を提案する |
 | `cooldown-withheld` | 公開直後の仮パッケージをクールダウンにより更新しない（0件） |
 | `cooldown-excluded-fresh` | 同じ公開直後の仮パッケージを除外指定によって即時候補にする（1件） |
@@ -57,8 +59,8 @@ GitHub側の機能を有効化・変更する場合は、テスト用リポジ�
 ## 検証で修正・確認した点
 
 - `cooldown.default-days: 0` は公開スキーマで拒否されました。待機を外す例は、スキーマに適合する `exclude: ["*"]` に変更しました。CLI実装と設定スキーマの受け付け範囲は一致しない場合があります。
-- 認証付きregistryのテストで、公式proxyがHTTP接続へ認証情報を付けず401になることを確認しました。検証サーバーをHTTPSにし、検証用証明書を明示的に信頼させます。[公式proxyの実装](https://github.com/dependabot/proxy/blob/main/internal/handlers/npm_registry.go)
-- 完全固定バージョンに `lockfile-only` を使っても、その範囲外への更新PRは出ません。範囲指定のfixtureを別に用意し、lockfileだけが更新される場合も確認します。
+- 認証付きregistryのテストで、公式proxyがHTTP接続へ認証情報を付けず401になることを確認しました。検証サーバーをHTTPSにし、検証用証明書を明示的に信頼させることで、認証・更新が成功しました。[公式proxyの実装](https://github.com/dependabot/proxy/blob/main/internal/handlers/npm_registry.go)
+- 完全固定バージョンに `lockfile-only` を使っても、その範囲外への更新PRは出ません。範囲指定のfixtureを別に用意し、lockfileだけが更新される場合も確認しました。
 - セキュリティ更新のテストは説明用の仮アドバイザリを入力します。テストに使うバージョンに実在する脆弱性があるという意味ではありません。
 
 ## 再実行と証跡

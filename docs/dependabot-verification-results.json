@@ -1,0 +1,180 @@
+{
+  "verified_on": "2026-11-14",
+  "run_url": "https://github.com/mergelog/dpb-test/actions/runs/43577956660",
+  "tested_commit": "cc4514f",
+  "cli_version": "v1.97.0",
+  "schema_configurations": 17,
+  "updater_cases": 15,
+  "passed": true,
+  "limitations": [
+    "GitHub scheduling, PR limits, labels, assignees, rebase scheduling and target-branch service integration were not exercised.",
+    "Registry authentication used a disposable HTTPS fixture, not a production registry.",
+    "Security advisories were synthetic; no real alert or pull request was created or merged."
+  ],
+  "results": [
+    {
+      "case": "actions",
+      "created_pr_count": 1,
+      "dependencies": [
+        "actions/checkout",
+        "actions/upload-artifact"
+      ],
+      "scope": "official updater dry-run; no real pull requests are created",
+      "job_id": 132396253868
+    },
+    {
+      "case": "all",
+      "created_pr_count": 1,
+      "dependencies": [
+        "@angular/compiler",
+        "@angular/core",
+        "rxjs",
+        "tslib",
+        "typescript"
+      ],
+      "scope": "official updater dry-run; no real pull requests are created",
+      "job_id": 132396253786
+    },
+    {
+      "case": "cooldown-excluded",
+      "created_pr_count": 1,
+      "dependencies": [
+        "@angular/compiler",
+        "@angular/core",
+        "rxjs",
+        "tslib",
+        "typescript"
+      ],
+      "scope": "official updater dry-run; no real pull requests are created",
+      "job_id": 132396253975
+    },
+    {
+      "case": "cooldown-excluded-fresh",
+      "created_pr_count": 1,
+      "dependencies": [
+        "@fixture/demo"
+      ],
+      "scope": "official updater dry-run; no real pull requests are created",
+      "job_id": 132396254922
+    },
+    {
+      "case": "cooldown-withheld",
+      "created_pr_count": 0,
+      "dependencies": [],
+      "scope": "official updater dry-run; no real pull requests are created",
+      "job_id": 132396254894
+    },
+    {
+      "case": "directories",
+      "created_pr_count": 10,
+      "dependencies": [
+        "@angular/compiler",
+        "@angular/core",
+        "rxjs",
+        "tslib",
+        "typescript"
+      ],
+      "scope": "official updater dry-run; no real pull requests are created",
+      "job_id": 132396253898
+    },
+    {
+      "case": "ignored-version",
+      "created_pr_count": 3,
+      "dependencies": [
+        "@angular/compiler",
+        "@angular/core",
+        "typescript"
+      ],
+      "scope": "official updater dry-run; no real pull requests are created",
+      "job_id": 132396253799
+    },
+    {
+      "case": "increase-if-necessary",
+      "created_pr_count": 5,
+      "dependencies": [
+        "@angular/compiler",
+        "@angular/core",
+        "rxjs",
+        "tslib",
+        "typescript"
+      ],
+      "scope": "official updater dry-run; no real pull requests are created",
+      "job_id": 132396253674
+    },
+    {
+      "case": "lockfile-pinned",
+      "created_pr_count": 0,
+      "dependencies": [],
+      "scope": "official updater dry-run; no real pull requests are created",
+      "job_id": 132396253809
+    },
+    {
+      "case": "lockfile-range",
+      "created_pr_count": 5,
+      "dependencies": [
+        "@angular/compiler",
+        "@angular/core",
+        "rxjs",
+        "tslib",
+        "typescript"
+      ],
+      "scope": "official updater dry-run; no real pull requests are created",
+      "job_id": 132396253773
+    },
+    {
+      "case": "patch",
+      "created_pr_count": 4,
+      "dependencies": [
+        "@angular/compiler",
+        "@angular/core",
+        "rxjs",
+        "typescript"
+      ],
+      "scope": "official updater dry-run; no real pull requests are created",
+      "job_id": 132396253893
+    },
+    {
+      "case": "production",
+      "created_pr_count": 3,
+      "dependencies": [
+        "@angular/compiler",
+        "@angular/core",
+        "rxjs"
+      ],
+      "scope": "official updater dry-run; no real pull requests are created",
+      "job_id": 132396253761
+    },
+    {
+      "case": "registry",
+      "created_pr_count": 1,
+      "dependencies": [
+        "@fixture/demo"
+      ],
+      "scope": "official updater dry-run; no real pull requests are created",
+      "job_id": 132396253996
+    },
+    {
+      "case": "security",
+      "created_pr_count": 1,
+      "dependencies": [
+        "rxjs",
+        "typescript"
+      ],
+      "scope": "official updater dry-run; no real pull requests are created",
+      "job_id": 132396254005
+    },
+    {
+      "case": "split",
+      "created_pr_count": 3,
+      "dependencies": [
+        "@angular/compiler",
+        "@angular/core",
+        "rxjs",
+        "tslib",
+        "typescript"
+      ],
+      "scope": "official updater dry-run; no real pull requests are created",
+      "job_id": 132396253806
+    }
+  ]
+}
