@@ -152,8 +152,8 @@ updates:
 # ケース5: GitHub Actionsで使うアクションも監視する
 # npmとは異なるecosystemなので、既存updatesへこのブロックを追加できる。
 # npmのグループとは別PRになる。通常のgroupsでecosystemをまたいでまとめない。
-# uses:で参照するアクションが対象。現在のワークフローにはuses:がないため、
-# この設定を追加しただけでは更新候補がない場合がある。
+# uses:で参照するアクションが対象。参照バージョンに新しい更新がなければPRは作られない。
+# 自動マージ用ワークフロー自体にuses:はないが、検証ワークフローの参照も監視対象になる。
 version: 2
 updates:
   - package-ecosystem: "github-actions"

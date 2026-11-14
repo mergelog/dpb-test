@@ -3,12 +3,19 @@
 
 import argparse
 import copy
+import base64
+import hashlib
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+import io
 import json
 import os
 from pathlib import Path
 import shutil
 import subprocess
 import sys
+import tarfile
+import threading
+import urllib.parse
 import urllib.request
 
 import jsonschema
@@ -28,7 +35,7 @@ TARGETS = {
 CASES = [
     'all', 'split', 'patch', 'ignored-version', 'production',
     'lockfile-pinned', 'lockfile-range', 'increase-if-necessary',
-    'cooldown-excluded', 'actions', 'security', 'directories',
+    'cooldown-excluded', 'actions', 'security', 'directories', 'registry',
 ]
 
 
@@ -193,17 +200,92 @@ def job_for(config):
     return {'job': job}
 
 
+def protected_registry(source):
+    """A disposable, authenticated fixture; no real registry account or token is used."""
+    token = 'dependabot-fixture-token-not-a-real-secret'
+    requests = []
+    archives = {}
+    for version in ['1.0.0', '1.0.1']:
+        buffer = io.BytesIO()
+        with tarfile.open(fileobj=buffer, mode='w:gz') as archive:
+            content = json.dumps({'name': '@fixture/demo', 'version': version}).encode()
+            entry = tarfile.TarInfo('package/package.json')
+            entry.size = len(content)
+            archive.addfile(entry, io.BytesIO(content))
+        archives[version] = buffer.getvalue()
+
+    class Handler(BaseHTTPRequestHandler):
+        def log_message(self, *args):
+            pass
+
+        def do_GET(self):
+            authorized = self.headers.get('Authorization') == 'Bearer ' + token
+            requests.append({'path': self.path, 'authorized': authorized})
+            if not authorized:
+                self.send_response(401)
+                self.end_headers()
+                return
+            path = urllib.parse.unquote(self.path)
+            if path == '/@fixture/demo':
+                versions = {}
+                for version, archive in archives.items():
+                    versions[version] = {
+                        'name': '@fixture/demo', 'version': version, 'license': 'MIT',
+                        'dist': {'tarball': origin + '/demo-' + version + '.tgz',
+                                 'shasum': hashlib.sha1(archive).hexdigest(),
+                                 'integrity': 'sha512-' + base64.b64encode(hashlib.sha512(archive).digest()).decode()},
+                    }
+                body = json.dumps({'name': '@fixture/demo', 'dist-tags': {'latest': '1.0.1'},
+                                   'versions': versions, 'time': {'1.0.0': '2020-01-01T00:00:00Z',
+                                                                '1.0.1': '2020-01-02T00:00:00Z'}}).encode()
+                content_type = 'application/json'
+            else:
+                version = path.removeprefix('/demo-').removesuffix('.tgz')
+                if version not in archives:
+                    self.send_response(404)
+                    self.end_headers()
+                    return
+                body = archives[version]
+                content_type = 'application/octet-stream'
+            self.send_response(200)
+            self.send_header('Content-Type', content_type)
+            self.send_header('Content-Length', str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+
+    server = ThreadingHTTPServer(('0.0.0.0', 0), Handler)
+    origin = f'http://registry.fixture.invalid:{server.server_port}'
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    source.mkdir(parents=True)
+    package = {'name': 'private-registry-fixture', 'version': '1.0.0', 'private': True,
+               'dependencies': {'@fixture/demo': '1.0.0'}}
+    (source / 'package.json').write_text(json.dumps(package, indent=2) + '\n')
+    (source / '.npmrc').write_text('@fixture:registry=' + origin + '/\n')
+    lock = {'name': package['name'], 'version': '1.0.0', 'lockfileVersion': 3, 'requires': True,
+            'packages': {'': {'name': package['name'], 'version': '1.0.0',
+                             'dependencies': package['dependencies']},
+                         'node_modules/@fixture/demo': {'version': '1.0.0',
+                             'resolved': origin + '/demo-1.0.0.tgz',
+                             'integrity': 'sha512-' + base64.b64encode(hashlib.sha512(archives['1.0.0']).digest()).decode()}}}
+    (source / 'package-lock.json').write_text(json.dumps(lock, indent=2) + '\n')
+    credential = {'type': 'npm_registry', 'registry': origin, 'token': token}
+    return server, requests, credential
+
+
 def run_case(name, output, cli):
     configs, variants = configurations()
     index = {'all': 0, 'split': 1, 'patch': 2, 'lockfile-pinned': 3, 'lockfile-range': 3,
-             'actions': 4, 'security': 5, 'directories': 6}
+             'actions': 4, 'security': 5, 'directories': 6, 'registry': 7}
     config = copy.deepcopy(variants[name] if name in variants else configs[index[name]])
     directory = output / name
     directory.mkdir(parents=True, exist_ok=True)
     source = directory / 'source'
     if source.exists():
         shutil.rmtree(source)
-    if name == 'actions':
+    registry = None
+    if name == 'registry':
+        registry, registry_requests, credential = protected_registry(source)
+    elif name == 'actions':
         workflow = source / '.github/workflows/fixture.yml'
         workflow.parent.mkdir(parents=True)
         workflow.write_text('name: Fixture\non: push\njobs:\n  fixture:\n    runs-on: ubuntu-latest\n    steps:\n'
@@ -216,6 +298,8 @@ def run_case(name, output, cli):
     else:
         fixture(source, ranges=name in ['lockfile-range', 'increase-if-necessary'])
     data = job_for(config)
+    if name == 'registry':
+        data['credentials'] = [credential]
     if name == 'security':
         # Synthetic advisories exercise grouped security logic; these are not real vulnerability claims.
         data['job'].update({
@@ -228,9 +312,17 @@ def run_case(name, output, cli):
     result_file = directory / 'result.yml'
     command = [cli, 'update', '-f', str(directory / 'job.json'), '--local', str(source),
                '-o', str(result_file), '--timeout', '12m']
+    if name == 'registry':
+        command += ['--extra-hosts', 'registry.fixture.invalid:host-gateway']
     print('Running official updater:', name, flush=True)
-    with (directory / 'run.log').open('w') as log:
-        completed = subprocess.run(command, stdout=log, stderr=subprocess.STDOUT)
+    try:
+        with (directory / 'run.log').open('w') as log:
+            completed = subprocess.run(command, stdout=log, stderr=subprocess.STDOUT)
+    finally:
+        if registry:
+            registry.shutdown()
+            registry.server_close()
+            (directory / 'registry-requests.json').write_text(json.dumps(registry_requests, indent=2) + '\n')
     log_text = (directory / 'run.log').read_text()
     print('\n'.join(log_text.splitlines()[-35:]), flush=True)
     assert completed.returncode == 0, f'{name}: CLI exited {completed.returncode}'
@@ -240,6 +332,10 @@ def run_case(name, output, cli):
     assert not errors, errors
     prs = [call['expect']['data'] for call in calls if call['type'] == 'create_pull_request']
     names = {dependency['name'] for pr in prs for dependency in pr.get('dependencies', [])}
+    if name not in ['actions', 'registry']:
+        for pr in prs:
+            for dependency in pr.get('dependencies', []):
+                assert dependency['version'] == TARGETS[dependency['name']], dependency
     summary = {'case': name, 'created_pr_count': len(prs), 'dependencies': sorted(names),
                'scope': 'official updater dry-run; no real pull requests are created'}
     (directory / 'observed.json').write_text(json.dumps(summary, indent=2) + '\n')
@@ -270,6 +366,10 @@ def run_case(name, output, cli):
     elif name == 'directories':
         assert names == set(TARGETS), summary
         assert 'fixtures/ignored/package' not in json.dumps(prs), 'excluded fixture was updated'
+    elif name == 'registry':
+        assert len(prs) == 1 and names == {'@fixture/demo'}, summary
+        assert prs[0]['dependencies'][0]['version'] == '1.0.1', prs
+        assert any(request['authorized'] for request in registry_requests), registry_requests
     (directory / 'passed.json').write_text(json.dumps(summary, indent=2) + '\n')
     print('PASS:', json.dumps(summary), flush=True)
 
