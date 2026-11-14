@@ -41,7 +41,25 @@ npmの基本fixtureにはAngular compiler/core 20.3.34、RxJS 7.8.1、tslib 2.8.
 
 将来のリリースによる変動を抑えるため、現在のメジャー内の後続バージョンをテスト側で除外します。新しいメジャーはこの上限では除外せず、サンプルのメジャー除外ルールで防げるかを確認します。
 
-## 実サービスでの確認と区別する項目
+## GitHub実サービスで追加確認した結果
+
+以下はCLIのdry-runとは別に、実際のPRとGitHub Actionsで確認しました。[実測結果JSON](dependabot-live-verification-results.json)に確認時刻・対象コミット・レビュー・マージ結果を記録しています。
+
+### 承認後の自動マージ
+
+- 対象: [tslib更新PR #4](https://github.com/mergelog/dpb-test/pull/4)、`2.8.1 → 2.9.1`。変更は`package.json`と`package-lock.json`のみ。
+- コミット`b5a01f3bd642d263dd1e201343021a547fb6e1b8`を別worktreeで取得し、`npm ci --ignore-scripts --no-audit --no-fund`と`npm run build`が成功。
+- 承認前は`open`・`blocked`・レビューなしで、自動マージの予約だけが有効。
+- `mergelog`でAPIからApproveを提出した時刻は`2026-11-14 09:15:24 UTC`。GitHubが`09:15:39 UTC`に自動Squash mergeしたことを確認。手動マージ・マージAPIの呼び出しは行っていません。
+- マージコミットは`1510a62a1bd075edded10570c0875fe1c8703f8d`。承認1件必須・管理者にも適用するブランチ保護は維持しています。
+
+### ワークフローによる自動マージ予約
+
+[RxJS更新PR #2](https://github.com/mergelog/dpb-test/pull/2)を閉じた時点で予約が解除されたことを確認し、再オープンしました。`reopened`イベントで[自動マージのワークフロー](https://github.com/mergelog/dpb-test/actions/runs/43579846705)が成功し、`github-actions`がSquash mergeの予約を有効にしました。その後も`OPEN`・`REVIEW_REQUIRED`・`BLOCKED`であり、承認なしではマージされていません。
+
+この確認はアカウント`mergelog`のAPI操作によるレビューです。ブラウザ上での手作業による承認操作を試したという意味ではありません。新規作成イベントによる起動は、再オープンイベントとは区別して扱います。
+
+## 実サービスで未確認の項目と前提
 
 | 項目 | 今回の確認範囲・残る前提 |
 | --- | --- |
@@ -52,12 +70,15 @@ npmの基本fixtureにはAngular compiler/core 20.3.34、RxJS 7.8.1、tslib 2.8.
 | `target-branch` | コメントを有効化した設定のスキーマ検証。実ブランチ・保護条件・ワークフロー条件は移行先で確認する |
 | private registry | 一時的なHTTPSサーバーと仮トークンで認証・更新を検証。利用者の実registry、Secrets登録、証明書、権限の違いは未検証 |
 | セキュリティ更新 | 仮の脆弱性情報でupdaterのグループ処理を検証。GitHubの実アラート生成・検出は未検証で、実リポジトリのsecurity updatesは有効化しない |
-| 承認後の自動マージ | このテストでは人の承認や実マージを代行しない。設定例自体は承認ルールを作らない |
+| 承認後の自動マージ | 上記の実PRで確認済み。設定例自体は承認ルールを作らないため、移行先でもブランチ保護が必要 |
 
 GitHub側の機能を有効化・変更する場合は、テスト用リポジトリなどで実PRの動作も確認してください。スキーマが通ることと、すべての運用条件で動くことは同義ではありません。
 
 ## 検証で修正・確認した点
 
+- 検証用に生成したYAMLの`09:00`で引用符が外れ、GitHub側で整数として解釈されました。配布する設定例は`"09:00"`のように引用符を付けています。YAML生成時にも文字列が維持されることを確認してください。
+- 実サービスでは5分間隔のcronが拒否され、最小間隔は24時間というエラーを確認しました。公開JSONスキーマに適合しても、この制約は検出されません。検証用設定は日次cronへ修正して、[GitHub側の設定検証成功](https://github.com/mergelog/dpb-test-live-verification-20261114/runs/132403032796)を確認しています。
+- 設定不備はActionsの実行一覧に出るとは限りません。設定変更コミットのChecksにある`.github/dependabot.yml`の結果も確認してください。
 - `cooldown.default-days: 0` は公開スキーマで拒否されました。待機を外す例は、スキーマに適合する `exclude: ["*"]` に変更しました。CLI実装と設定スキーマの受け付け範囲は一致しない場合があります。
 - 認証付きregistryのテストで、公式proxyがHTTP接続へ認証情報を付けず401になることを確認しました。検証サーバーをHTTPSにし、検証用証明書を明示的に信頼させることで、認証・更新が成功しました。[公式proxyの実装](https://github.com/dependabot/proxy/blob/main/internal/handlers/npm_registry.go)
 - 完全固定バージョンに `lockfile-only` を使っても、その範囲外への更新PRは出ません。範囲指定のfixtureを別に用意し、lockfileだけが更新される場合も確認しました。
