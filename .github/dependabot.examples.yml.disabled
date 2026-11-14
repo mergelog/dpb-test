@@ -213,6 +213,7 @@ updates:
 # URLは説明用。実際のregistry URLに変更し、Settings → Secrets and variables →
 # DependabotへNPM_PRIVATE_TOKENを登録する。トークンの値をファイルへ書かない。
 # Actions用SecretsがそのままDependabotへ共有される前提にしない。
+# registryのURLにはHTTPSを使う。公式proxyはHTTPリクエストへ認証情報を付けない。
 # https://docs.github.com/en/code-security/how-tos/secure-your-supply-chain/manage-your-dependency-security/configure-access-to-private-registries
 version: 2
 registries:

@@ -29,7 +29,7 @@ jobs:
       fail-fast: false
       max-parallel: 3
       matrix:
-        case: [all, split, patch, ignored-version, production, lockfile-pinned, lockfile-range, increase-if-necessary, cooldown-excluded, actions, security, directories, registry]
+        case: [all, split, patch, ignored-version, production, lockfile-pinned, lockfile-range, increase-if-necessary, cooldown-excluded, actions, security, directories, registry, cooldown-withheld, cooldown-excluded-fresh]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:

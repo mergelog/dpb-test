@@ -3,6 +3,7 @@
 
 import argparse
 import copy
+from datetime import datetime, timezone
 import base64
 import hashlib
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -11,11 +12,13 @@ import json
 import os
 from pathlib import Path
 import shutil
+import ssl
 import subprocess
-import sys
 import tarfile
+import tempfile
 import threading
 import urllib.parse
+import urllib.error
 import urllib.request
 
 import jsonschema
@@ -36,6 +39,7 @@ CASES = [
     'all', 'split', 'patch', 'ignored-version', 'production',
     'lockfile-pinned', 'lockfile-range', 'increase-if-necessary',
     'cooldown-excluded', 'actions', 'security', 'directories', 'registry',
+    'cooldown-withheld', 'cooldown-excluded-fresh',
 ]
 
 
@@ -200,7 +204,7 @@ def job_for(config):
     return {'job': job}
 
 
-def protected_registry(source):
+def protected_registry(source, recent=False):
     """A disposable, authenticated fixture; no real registry account or token is used."""
     token = 'dependabot-fixture-token-not-a-real-secret'
     requests = []
@@ -237,7 +241,7 @@ def protected_registry(source):
                     }
                 body = json.dumps({'name': '@fixture/demo', 'dist-tags': {'latest': '1.0.1'},
                                    'versions': versions, 'time': {'1.0.0': '2020-01-01T00:00:00Z',
-                                                                '1.0.1': '2020-01-02T00:00:00Z'}}).encode()
+                                       '1.0.1': datetime.now(timezone.utc).isoformat() if recent else '2020-01-02T00:00:00Z'}}).encode()
                 content_type = 'application/json'
             else:
                 version = path.removeprefix('/demo-').removesuffix('.tgz')
@@ -253,10 +257,30 @@ def protected_registry(source):
             self.end_headers()
             self.wfile.write(body)
 
+    certificate_directory = tempfile.TemporaryDirectory(prefix='dependabot-registry-tls-')
+    certificate = Path(certificate_directory.name) / 'certificate.pem'
+    key = Path(certificate_directory.name) / 'key.pem'
+    subprocess.run([
+        'openssl', 'req', '-x509', '-newkey', 'rsa:2048', '-nodes', '-days', '1',
+        '-keyout', str(key), '-out', str(certificate), '-subj', '/CN=registry.fixture.invalid',
+        '-addext', 'subjectAltName=DNS:registry.fixture.invalid,IP:127.0.0.1',
+    ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     server = ThreadingHTTPServer(('0.0.0.0', 0), Handler)
-    origin = f'http://registry.fixture.invalid:{server.server_port}'
+    tls = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    tls.load_cert_chain(certificate, key)
+    server.socket = tls.wrap_socket(server.socket, server_side=True)
+    server.certificate_directory = certificate_directory
+    server.certificate = certificate
+    origin = f'https://registry.fixture.invalid:{server.server_port}'
     threading.Thread(target=server.serve_forever, daemon=True).start()
     source.mkdir(parents=True)
+    try:
+        urllib.request.urlopen(f'https://127.0.0.1:{server.server_port}/@fixture%2Fdemo',
+                               context=ssl.create_default_context(cafile=str(certificate)))
+    except urllib.error.HTTPError as error:
+        assert error.code == 401
+    else:
+        raise AssertionError('Registry fixture must reject unauthenticated requests')
     package = {'name': 'private-registry-fixture', 'version': '1.0.0', 'private': True,
                'dependencies': {'@fixture/demo': '1.0.0'}}
     (source / 'package.json').write_text(json.dumps(package, indent=2) + '\n')
@@ -275,16 +299,18 @@ def protected_registry(source):
 def run_case(name, output, cli):
     configs, variants = configurations()
     index = {'all': 0, 'split': 1, 'patch': 2, 'lockfile-pinned': 3, 'lockfile-range': 3,
-             'actions': 4, 'security': 5, 'directories': 6, 'registry': 7}
-    config = copy.deepcopy(variants[name] if name in variants else configs[index[name]])
+             'actions': 4, 'security': 5, 'directories': 6, 'registry': 7, 'cooldown-withheld': 0}
+    config = copy.deepcopy(variants['cooldown-excluded'] if name == 'cooldown-excluded-fresh'
+                           else variants[name] if name in variants else configs[index[name]])
     directory = output / name
     directory.mkdir(parents=True, exist_ok=True)
     source = directory / 'source'
     if source.exists():
         shutil.rmtree(source)
     registry = None
-    if name == 'registry':
-        registry, registry_requests, credential = protected_registry(source)
+    uses_registry = name in ['registry', 'cooldown-withheld', 'cooldown-excluded-fresh']
+    if uses_registry:
+        registry, registry_requests, credential = protected_registry(source, recent=name != 'registry')
     elif name == 'actions':
         workflow = source / '.github/workflows/fixture.yml'
         workflow.parent.mkdir(parents=True)
@@ -298,7 +324,7 @@ def run_case(name, output, cli):
     else:
         fixture(source, ranges=name in ['lockfile-range', 'increase-if-necessary'])
     data = job_for(config)
-    if name == 'registry':
+    if uses_registry:
         data['credentials'] = [credential]
     if name == 'security':
         # Synthetic advisories exercise grouped security logic; these are not real vulnerability claims.
@@ -312,8 +338,9 @@ def run_case(name, output, cli):
     result_file = directory / 'result.yml'
     command = [cli, 'update', '-f', str(directory / 'job.json'), '--local', str(source),
                '-o', str(result_file), '--timeout', '12m']
-    if name == 'registry':
-        command += ['--extra-hosts', 'registry.fixture.invalid:host-gateway']
+    if uses_registry:
+        command += ['--extra-hosts', 'registry.fixture.invalid:host-gateway',
+                    '--proxy-cert', str(registry.certificate)]
     print('Running official updater:', name, flush=True)
     try:
         with (directory / 'run.log').open('w') as log:
@@ -322,7 +349,21 @@ def run_case(name, output, cli):
         if registry:
             registry.shutdown()
             registry.server_close()
+            registry.certificate_directory.cleanup()
             (directory / 'registry-requests.json').write_text(json.dumps(registry_requests, indent=2) + '\n')
+        # Never preserve the ephemeral GitHub API token in uploaded evidence.
+        github_token = os.environ.get('LOCAL_GITHUB_ACCESS_TOKEN')
+        if github_token:
+            for candidate in directory.rglob('*'):
+                if candidate.is_file() and candidate.suffix in ['.json', '.yml', '.log']:
+                    text = candidate.read_text()
+                    if github_token in text:
+                        candidate.write_text(text.replace(github_token, '$LOCAL_GITHUB_ACCESS_TOKEN'))
+        images = subprocess.run(['docker', 'image', 'ls', '--digests', '--format', '{{json .}}'],
+                                capture_output=True, text=True)
+        (directory / 'images.json').write_text(json.dumps([
+            json.loads(line) for line in images.stdout.splitlines() if 'dependabot' in line
+        ], indent=2) + '\n')
     log_text = (directory / 'run.log').read_text()
     print('\n'.join(log_text.splitlines()[-35:]), flush=True)
     assert completed.returncode == 0, f'{name}: CLI exited {completed.returncode}'
@@ -332,7 +373,7 @@ def run_case(name, output, cli):
     assert not errors, errors
     prs = [call['expect']['data'] for call in calls if call['type'] == 'create_pull_request']
     names = {dependency['name'] for pr in prs for dependency in pr.get('dependencies', [])}
-    if name not in ['actions', 'registry']:
+    if name != 'actions' and not uses_registry:
         for pr in prs:
             for dependency in pr.get('dependencies', []):
                 assert dependency['version'] == TARGETS[dependency['name']], dependency
@@ -341,6 +382,7 @@ def run_case(name, output, cli):
     (directory / 'observed.json').write_text(json.dumps(summary, indent=2) + '\n')
     if name in ['all', 'cooldown-excluded']:
         assert len(prs) == 1 and names == set(TARGETS), summary
+        assert prs[0]['pr-title'].startswith('chore(deps):'), prs[0]['pr-title']
     elif name == 'split':
         assert len(prs) == 3 and names == set(TARGETS), summary
         groups = [set(dep['name'] for dep in pr['dependencies']) for pr in prs]
@@ -364,11 +406,15 @@ def run_case(name, output, cli):
     elif name == 'security':
         assert len(prs) == 1 and names == {'rxjs', 'typescript'}, summary
     elif name == 'directories':
-        assert names == set(TARGETS), summary
+        assert len(prs) == 10 and names == set(TARGETS), summary
+        assert {dep['directory'] for pr in prs for dep in pr['dependencies']} == {'/apps/web', '/packages/shared'}
         assert 'fixtures/ignored/package' not in json.dumps(prs), 'excluded fixture was updated'
-    elif name == 'registry':
+    elif name in ['registry', 'cooldown-excluded-fresh']:
         assert len(prs) == 1 and names == {'@fixture/demo'}, summary
         assert prs[0]['dependencies'][0]['version'] == '1.0.1', prs
+        assert any(request['authorized'] for request in registry_requests), registry_requests
+    elif name == 'cooldown-withheld':
+        assert not prs, summary
         assert any(request['authorized'] for request in registry_requests), registry_requests
     (directory / 'passed.json').write_text(json.dumps(summary, indent=2) + '\n')
     print('PASS:', json.dumps(summary), flush=True)
