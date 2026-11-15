@@ -150,3 +150,5 @@ vite.config.ts.timestamp-*
 
 # Angular CLI cache
 .angular/
+
+x-*
